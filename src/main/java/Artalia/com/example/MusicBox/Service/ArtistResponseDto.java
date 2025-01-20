@@ -1,8 +1,11 @@
 package Artalia.com.example.MusicBox.Service;
 
-public record ArtistDto (
+import java.util.List;
+
+public record ArtistResponseDto (
         String artistName,
         String artistInformation,
-        String email
+        String email,
+        List<SongEntity> songs
 ) {
 }
