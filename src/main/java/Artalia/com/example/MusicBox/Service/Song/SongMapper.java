@@ -21,7 +21,7 @@ public class SongMapper {
     }
 
     public SongResponseDto toSongDto(SongEntity songEntity){
-        return new SongResponseDto(songEntity.getLink(), songEntity.getSongName(), songEntity.getArtistName());
+        return new SongResponseDto(songEntity.getSongID(), songEntity.getLink(), songEntity.getSongName(), songEntity.getArtistName());
     }
 
     public List<SongResponseDto> toSongDto(List<SongEntity> songs){

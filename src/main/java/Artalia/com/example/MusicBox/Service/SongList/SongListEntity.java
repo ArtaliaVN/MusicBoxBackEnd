@@ -52,7 +52,7 @@ public class SongListEntity {
         this.user = user;
     }
 
-    public int getId(){
+    public int getSongListId(){
         return id;
     }
 

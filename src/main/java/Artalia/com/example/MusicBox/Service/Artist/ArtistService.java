@@ -14,9 +14,11 @@ public class ArtistService {
         this.artistMapper = artistMapper;
     }
 
-    public ArtistDto post(ArtistDto artistDto){
-        artistRepository.save(artistMapper.toArtistEntity(artistDto));
-        return artistDto;
+    public ArtistResponseDto post(ArtistDto artistDto){
+        ArtistEntity artistEntity = artistMapper.toArtistEntity(artistDto);
+        ArtistResponseDto artistResponseDto = artistMapper.toArtistDto(artistEntity);
+        artistRepository.save(artistEntity);
+        return artistResponseDto;
     }
 
     public ArtistResponseDto getById(int id){

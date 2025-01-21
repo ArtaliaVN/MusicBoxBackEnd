@@ -21,7 +21,7 @@ public class ArtistDatabaseController {
     }
 
     @PostMapping("/artist/post")
-    public ArtistDto post(@RequestBody ArtistDto artistDto){
+    public ArtistResponseDto post(@RequestBody ArtistDto artistDto){
         return artistService.post(artistDto);
     }
 

@@ -18,7 +18,7 @@ public class UserMapper {
     }
 
     public UserResponseDto toUserDto(UserEntity userEntity){
-        return new UserResponseDto(userEntity.getEmail(), userEntity.getUserName(), userEntity.getFirstName(), userEntity.getLastName(), userEntity.getSongLibrary());
+        return new UserResponseDto(userEntity.getUserId(), userEntity.getEmail(), userEntity.getUserName(), userEntity.getFirstName(), userEntity.getLastName(), userEntity.getSongLibrary());
     }
 
     public List<UserResponseDto> toUserDto(List<UserEntity> userEntities){

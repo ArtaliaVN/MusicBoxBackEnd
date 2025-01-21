@@ -21,13 +21,11 @@ public class UserService {
     }
 
     public UserResponseDto getById(int id){
-        UserEntity userEntity = userRepository.findById(id).orElse(null);
-        return userMapper.toUserDto(userEntity);
+        return userMapper.toUserDto(userRepository.findById(id).orElse(null));
     }
 
     public UserResponseDto getByUserName(String userName){
-        UserEntity userEntity = userRepository.findByUserName(userName);
-        return userMapper.toUserDto(userEntity);
+        return userMapper.toUserDto(userRepository.findByUserName(userName));
     }
 
     public List<UserResponseDto> getAll(){

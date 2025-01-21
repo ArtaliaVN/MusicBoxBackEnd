@@ -22,8 +22,7 @@ public class SongListService {
     }
 
     public SongListResponseDto getById(int Id){
-        SongListEntity songListEntity = songListRepository.findById(Id).orElse(null);
-        return songListMapper.toSongListDto(songListEntity);
+        return songListMapper.toSongListDto(songListRepository.findById(Id).orElse(null));
     }
 
     public List<SongListResponseDto> getAll(){

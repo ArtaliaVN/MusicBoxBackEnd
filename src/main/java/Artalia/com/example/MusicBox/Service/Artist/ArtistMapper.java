@@ -16,7 +16,7 @@ public class ArtistMapper {
     }
 
     public ArtistResponseDto toArtistDto(ArtistEntity artistEntity){
-        return new ArtistResponseDto(artistEntity.getArtistName(), artistEntity.getArtistInformation(), artistEntity.getEmail(), artistEntity.getSongs());
+        return new ArtistResponseDto(artistEntity.getArtistID(), artistEntity.getArtistName(), artistEntity.getArtistInformation(), artistEntity.getEmail(), artistEntity.getSongs());
     }
 
     public List<ArtistResponseDto> toSongDto(List<ArtistEntity> artists){

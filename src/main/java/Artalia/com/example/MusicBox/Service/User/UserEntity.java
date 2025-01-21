@@ -73,7 +73,7 @@ public class UserEntity {
         this.songListLibrary = songListLibrary;
     }
 
-    public int getId(){
+    public int getUserId(){
         return id;
     }
 

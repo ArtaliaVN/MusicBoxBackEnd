@@ -22,8 +22,7 @@ public class SongService {
     }
 
     public SongResponseDto getById(int id){
-        SongEntity songEntity = songRepository.findById(id).orElse(null);
-        return songMapper.toSongDto(songEntity);
+        return songMapper.toSongDto(songRepository.findById(id).orElse(null));
     }
 
     public List<SongResponseDto> getBySongName(String songName){
