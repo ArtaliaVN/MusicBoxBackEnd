@@ -8,9 +8,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import Artalia.com.example.MusicBox.Service.SongDto;
-import Artalia.com.example.MusicBox.Service.SongResponseDto;
-import Artalia.com.example.MusicBox.Service.SongService;
+import Artalia.com.example.MusicBox.Service.Song.SongDto;
+import Artalia.com.example.MusicBox.Service.Song.SongResponseDto;
+import Artalia.com.example.MusicBox.Service.Song.SongService;
 
 @RestController
 public class SongDatabaseController {

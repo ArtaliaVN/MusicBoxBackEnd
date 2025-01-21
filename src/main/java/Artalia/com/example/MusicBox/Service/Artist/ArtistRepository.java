@@ -1,4 +1,4 @@
-package Artalia.com.example.MusicBox.Service;
+package Artalia.com.example.MusicBox.Service.Artist;
 
 import java.util.List;
 

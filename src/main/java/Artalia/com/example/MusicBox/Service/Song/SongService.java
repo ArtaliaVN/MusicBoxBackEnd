@@ -1,4 +1,4 @@
-package Artalia.com.example.MusicBox.Service;
+package Artalia.com.example.MusicBox.Service.Song;
 
 import java.util.List;
 
@@ -23,8 +23,7 @@ public class SongService {
 
     public SongResponseDto getById(int id){
         SongEntity songEntity = songRepository.findById(id).orElse(null);
-        SongResponseDto songResponseDto = songMapper.toSongDto(songEntity);
-        return songResponseDto;
+        return songMapper.toSongDto(songEntity);
     }
 
     public List<SongResponseDto> getBySongName(String songName){

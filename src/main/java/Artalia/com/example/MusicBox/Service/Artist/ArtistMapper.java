@@ -1,4 +1,4 @@
-package Artalia.com.example.MusicBox.Service;
+package Artalia.com.example.MusicBox.Service.Artist;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -16,8 +16,7 @@ public class ArtistMapper {
     }
 
     public ArtistResponseDto toArtistDto(ArtistEntity artistEntity){
-        ArtistResponseDto artistResponseDto = new ArtistResponseDto(artistEntity.getArtistName(), artistEntity.getArtistInformation(), artistEntity.getEmail(), artistEntity.getSongs());
-        return artistResponseDto;
+        return new ArtistResponseDto(artistEntity.getArtistName(), artistEntity.getArtistInformation(), artistEntity.getEmail(), artistEntity.getSongs());
     }
 
     public List<ArtistResponseDto> toSongDto(List<ArtistEntity> artists){

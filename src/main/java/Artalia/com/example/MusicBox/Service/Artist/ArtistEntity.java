@@ -1,9 +1,10 @@
-package Artalia.com.example.MusicBox.Service;
+package Artalia.com.example.MusicBox.Service.Artist;
 
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
+import Artalia.com.example.MusicBox.Service.Song.SongEntity;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

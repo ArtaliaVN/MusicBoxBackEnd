@@ -1,9 +1,11 @@
-package Artalia.com.example.MusicBox.Service;
+package Artalia.com.example.MusicBox.Service.Song;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
+
+import Artalia.com.example.MusicBox.Service.Artist.ArtistEntity;
 
 @Service
 public class SongMapper {
@@ -19,8 +21,7 @@ public class SongMapper {
     }
 
     public SongResponseDto toSongDto(SongEntity songEntity){
-        SongResponseDto songResponseDto = new SongResponseDto(songEntity.getLink(), songEntity.getSongName(), songEntity.getArtistName());
-        return songResponseDto;
+        return new SongResponseDto(songEntity.getLink(), songEntity.getSongName(), songEntity.getArtistName());
     }
 
     public List<SongResponseDto> toSongDto(List<SongEntity> songs){

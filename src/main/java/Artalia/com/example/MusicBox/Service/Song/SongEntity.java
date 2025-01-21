@@ -1,7 +1,8 @@
-package Artalia.com.example.MusicBox.Service;
+package Artalia.com.example.MusicBox.Service.Song;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
+import Artalia.com.example.MusicBox.Service.Artist.ArtistEntity;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;

@@ -1,4 +1,4 @@
-package Artalia.com.example.MusicBox.Service;
+package Artalia.com.example.MusicBox.Service.Artist;
 
 import java.util.List;
 
@@ -25,7 +25,6 @@ public class ArtistService {
 
     public List<ArtistResponseDto> getByArtistName(String artistName){
         return artistMapper.toSongDto(artistRepository.findByArtistName(artistName));
-
     }
 
     public List<ArtistResponseDto> getAll(){
