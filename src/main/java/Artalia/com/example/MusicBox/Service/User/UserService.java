@@ -1,5 +1,7 @@
 package Artalia.com.example.MusicBox.Service.User;
 
+import java.util.List;
+
 import org.springframework.stereotype.Service;
 
 @Service
@@ -26,5 +28,9 @@ public class UserService {
     public UserResponseDto getByUserName(String userName){
         UserEntity userEntity = userRepository.findByUserName(userName);
         return userMapper.toUserDto(userEntity);
+    }
+
+    public List<UserResponseDto> getAll(){
+        return userMapper.toUserDto(userRepository.findAll());
     }
 }
