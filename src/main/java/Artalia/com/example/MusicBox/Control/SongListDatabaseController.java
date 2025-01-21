@@ -2,6 +2,7 @@ package Artalia.com.example.MusicBox.Control;
 
 import java.util.List;
 
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -33,5 +34,10 @@ public class SongListDatabaseController {
     @GetMapping("/songlist/get/all")
     public List<SongListResponseDto> getAll(){
         return songListService.getAll();
+    }
+
+    @DeleteMapping("/songlist/delete/id={id}")
+    public void deleteById(@PathVariable("id") int id){
+        songListService.deleteById(id);
     }
 }

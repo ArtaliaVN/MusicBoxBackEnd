@@ -36,4 +36,8 @@ public class SongService {
     public List<SongResponseDto> getAll(){
         return songMapper.toSongDto(songRepository.findAll());
     }
+
+    public void deleteById(int id){
+        songRepository.deleteById(id);
+    }
 }

@@ -32,4 +32,8 @@ public class ArtistService {
     public List<ArtistResponseDto> getAll(){
         return artistMapper.toSongDto(artistRepository.findAll());
     }
+
+    public void deleteById(int id){
+        artistRepository.deleteById(id);
+    }
 }

@@ -28,4 +28,8 @@ public class SongListService {
     public List<SongListResponseDto> getAll(){
         return songListMapper.toSongListDto(songListRepository.findAll());
     } 
+
+    public void deleteById(int id){
+        songListRepository.deleteById(id);
+    }
 }
