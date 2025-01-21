@@ -31,4 +31,8 @@ public class UserService {
     public List<UserResponseDto> getAll(){
         return userMapper.toUserDto(userRepository.findAll());
     }
+
+    public void deleteById(int id){
+        userRepository.delete(userRepository.findById(id).orElse(null));
+    }
 }
