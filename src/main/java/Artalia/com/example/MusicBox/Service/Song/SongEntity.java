@@ -15,7 +15,7 @@ import jakarta.persistence.ManyToOne;
 public class SongEntity {
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
-    private int id;
+    private Integer id;
 
     @Column(length = 500)
     private String link;

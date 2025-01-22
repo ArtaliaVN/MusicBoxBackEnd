@@ -18,7 +18,7 @@ import jakarta.persistence.OneToOne;
 public class ArtistEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Integer id;
 
     @Column(length = 25)
     private String artistName;

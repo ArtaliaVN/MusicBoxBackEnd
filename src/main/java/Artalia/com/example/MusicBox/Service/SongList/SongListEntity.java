@@ -19,7 +19,7 @@ import jakarta.persistence.OneToMany;
 public class SongListEntity {
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
-    private int id;
+    private Integer id;
 
     @Column
     private String playListName;
