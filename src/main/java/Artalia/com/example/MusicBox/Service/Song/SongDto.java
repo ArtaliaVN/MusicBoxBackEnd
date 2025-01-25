@@ -1,8 +1,9 @@
 package Artalia.com.example.MusicBox.Service.Song;
 
 public record SongDto(
-        String link,
+        String songLink,
+        int songLength,
         String songName,
         String artistName,
-        Integer artist_id
+        int artist_id
 ) {}

@@ -15,10 +15,13 @@ import jakarta.persistence.ManyToOne;
 public class SongEntity {
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
-    private Integer id;
+    private int id;
 
     @Column(length = 500)
-    private String link;
+    private String songLink;
+
+    @Column
+    private int songLength;
 
     @Column(length = 25)
     private String songName;
@@ -35,21 +38,30 @@ public class SongEntity {
         super();
     }
 
-    public SongEntity(String link, String songName, String artistName){
-        this.link = link;
+    public SongEntity(String songLink, String songName, String artistName, int songLength){
+        this.songLink = songLink;
         this.songName = songName;
         this.artistName = artistName;
+        this.songLength = songLength;
     }
 
-    public SongEntity(int id, String link, String songName, String artistName){
+    public SongEntity(int id, String songLink, String songName, String artistName, int songLength){
         this.id = id;
-        this.link = link;
+        this.songLink = songLink;
         this.songName = songName;
         this.artistName = artistName;
+        this.songLength = songLength;
+    }
+    public void setSongId(int id){
+        this.id = id;
     }
 
-    public void setLink(String link){
-        this.link = link;
+    public void setSongLink(String songLink){
+        this.songLink = songLink;
+    }
+
+    public void setSongLength(int songLength){
+        this.songLength = songLength;
     }
 
     public void setSongName(String songName){
@@ -68,8 +80,12 @@ public class SongEntity {
         return id;
     }
 
-    public String getLink(){
-        return link;
+    public String getSongLink(){
+        return songLink;
+    }
+
+    public int getSongLength(){
+        return songLength;
     }
 
     public String getSongName(){

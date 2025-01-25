@@ -11,7 +11,8 @@ import Artalia.com.example.MusicBox.Service.Artist.ArtistEntity;
 public class SongMapper {
     public SongEntity toSongEntity(SongDto songDto){
         SongEntity songEntity = new SongEntity();
-        songEntity.setLink(songDto.link());
+        songEntity.setSongLink(songDto.songLink());
+        songEntity.setSongLength(songDto.songLength());
         songEntity.setSongName(songDto.songName());
         songEntity.setArtistName(songDto.artistName());
         ArtistEntity artistEntity = new ArtistEntity();
@@ -21,7 +22,7 @@ public class SongMapper {
     }
 
     public SongResponseDto toSongDto(SongEntity songEntity){
-        return new SongResponseDto(songEntity.getSongID(), songEntity.getLink(), songEntity.getSongName(), songEntity.getArtistName());
+        return new SongResponseDto(songEntity.getSongID(), songEntity.getSongLink(), songEntity.getSongLength(),songEntity.getSongName(), songEntity.getArtistName());
     }
 
     public List<SongResponseDto> toSongDto(List<SongEntity> songs){

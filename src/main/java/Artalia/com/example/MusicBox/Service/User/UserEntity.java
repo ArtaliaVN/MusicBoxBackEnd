@@ -4,19 +4,22 @@ import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
+import Artalia.com.example.MusicBox.Service.Artist.ArtistEntity;
 import Artalia.com.example.MusicBox.Service.SongList.SongListEntity;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToMany;
 
 @Entity
 public class UserEntity {
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
-    private Integer id;
+    private int id;
 
     @Column(unique= true)
     private String email;
@@ -36,6 +39,10 @@ public class UserEntity {
     @OneToMany(mappedBy = "user")
     @JsonManagedReference
     private List<SongListEntity> songListLibrary;
+
+    @ManyToMany
+    @JoinColumn(name = "subscribers")
+    private List<ArtistEntity> subscribedArtist;
 
     public UserEntity(){
         super();
@@ -73,6 +80,10 @@ public class UserEntity {
         this.songListLibrary = songListLibrary;
     }
 
+    public void setSubscribedArtist(List<ArtistEntity> subscribedArtist){
+        this.subscribedArtist = subscribedArtist;
+    }
+
     public int getUserId(){
         return id;
     }
@@ -99,5 +110,9 @@ public class UserEntity {
 
     public List<SongListEntity> getSongLibrary(){
         return songListLibrary;
+    }
+
+    public List<ArtistEntity> getSubscribedArtist(){
+        return subscribedArtist;
     }
 }

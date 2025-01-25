@@ -7,5 +7,5 @@ import Artalia.com.example.MusicBox.Service.Song.SongEntity;
 public record SongListDto(
     String playListName,
     List<SongEntity> songList,
-    Integer user_id
+    int user_id
 ) {}
