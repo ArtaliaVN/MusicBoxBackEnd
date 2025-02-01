@@ -14,8 +14,16 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.Table;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Entity
+@Table(name = "SongListEntity")
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class SongListEntity {
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
@@ -32,39 +40,4 @@ public class SongListEntity {
     @JsonBackReference
     private UserEntity user;
 
-    public SongListEntity(){
-        super();
-    };
-
-    public SongListEntity(String playListName){
-        this.playListName = playListName;
-    }
-
-    public void setPlayListName(String playListName){
-        this.playListName = playListName;
-    }
-
-    public void setSongList(List<SongEntity> songList){
-        this.songList = songList;
-    }
-
-    public void setUserEntity(UserEntity user){
-        this.user = user;
-    }
-
-    public int getSongListId(){
-        return id;
-    }
-
-    public String getPlayListName(){
-        return playListName;
-    }
-
-    public List<SongEntity> getSongList(){
-        return songList;
-    }
-
-    public UserEntity getUserEntity(){
-        return user;
-    }
 }

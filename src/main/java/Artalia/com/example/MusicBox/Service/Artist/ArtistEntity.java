@@ -16,8 +16,16 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
+import jakarta.persistence.Table;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Entity
+@Table(name = "ArtistEntity")
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class ArtistEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -25,6 +33,9 @@ public class ArtistEntity {
 
     @Column(length = 25)
     private String artistName;
+
+    @Column
+    private String profileImageURL;
 
     @Column(unique= true)
     private String email;
@@ -46,77 +57,4 @@ public class ArtistEntity {
         cascade= CascadeType.ALL
     )
     private ArtistProfile artistProfile;
-
-    public ArtistEntity(){
-        super();
-    }
-
-    public ArtistEntity(String artistName, String email ,String artistInformation){
-        this.artistName = artistName;
-        this.email = email;
-        this.artistInformation = artistInformation;
-    }
-    
-    public ArtistEntity(int id, String artistName, String email, String artistInformation){
-        this.id = id;
-        this.artistName = artistName;
-        this.email = email;
-        this.artistInformation = artistInformation;
-    }
-
-    public void setArtistID(int id){
-        this.id = id;
-    }
-
-    public void setArtistName(String artistName){
-        this.artistName = artistName;
-    }
-
-    public void setArtistInformation(String artistInformation){
-        this.artistInformation = artistInformation;
-    }
-
-    public void setEmail(String email){
-        this.email = email;
-    }
-
-    public void setSongs(List<SongEntity> songs){
-        this.songs = songs;
-    }
-
-    public void setArtistProfile(ArtistProfile artistProfile){
-        this.artistProfile = artistProfile;
-    }
-
-    public void setSubscribers(List<UserEntity> subscribers){
-        this.subscribers = subscribers;
-    }
-
-    public int getArtistID(){
-        return id;
-    }
-
-    public String getArtistName(){
-        return artistName;
-    }
-
-    public String getArtistInformation(){
-        return artistInformation;
-    }
-
-    public String getEmail(){
-        return email;
-    }
-
-    public List<SongEntity> getSongs(){
-        return songs;
-    }
-
-    public ArtistProfile getArtistProfile(){
-        return artistProfile;
-    }
-
-    public List<UserEntity> getSubscribers(){
-        return subscribers;
-    }
 }

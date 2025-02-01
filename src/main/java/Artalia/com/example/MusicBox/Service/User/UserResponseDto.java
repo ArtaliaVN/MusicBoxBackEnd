@@ -9,6 +9,7 @@ public record UserResponseDto(
     int id,
     String email,
     String userName,
+    String profileImageURL,
     String firstName,
     String lastName,
     List<SongListEntity> songListLibrary,

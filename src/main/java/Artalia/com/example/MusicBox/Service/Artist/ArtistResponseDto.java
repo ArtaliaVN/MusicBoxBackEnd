@@ -7,6 +7,7 @@ import Artalia.com.example.MusicBox.Service.Song.SongEntity;
 public record ArtistResponseDto (
         int id,
         String artistName,
+        String profileImageURL,
         String artistInformation,
         String email,
         List<SongEntity> songs

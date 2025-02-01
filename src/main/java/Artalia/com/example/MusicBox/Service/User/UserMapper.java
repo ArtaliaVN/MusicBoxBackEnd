@@ -13,12 +13,13 @@ public class UserMapper {
         userEntity.setFirstName(userDto.firstName());
         userEntity.setLastName(userDto.lastName());
         userEntity.setUserName(userDto.userName());
-        userEntity.setPassWord(userDto.password());
+        userEntity.setProfileImageURL(userDto.profileImageURL());
+        userEntity.setPassword(userDto.password());
         return userEntity;
     }
 
     public UserResponseDto toUserDto(UserEntity userEntity){
-        return new UserResponseDto(userEntity.getUserId(), userEntity.getEmail(), userEntity.getUserName(), userEntity.getFirstName(), userEntity.getLastName(), userEntity.getSongLibrary(), userEntity.getSubscribedArtist());
+        return new UserResponseDto(userEntity.getId(), userEntity.getEmail(), userEntity.getUserName(), userEntity.getProfileImageURL(), userEntity.getFirstName(), userEntity.getLastName(), userEntity.getSongListLibrary(), userEntity.getSubscribedArtist());
     }
 
     public List<UserResponseDto> toUserDto(List<UserEntity> userEntities){

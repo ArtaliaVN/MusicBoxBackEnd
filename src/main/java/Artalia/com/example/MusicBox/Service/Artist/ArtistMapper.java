@@ -10,13 +10,14 @@ public class ArtistMapper {
     public ArtistEntity toArtistEntity(ArtistDto artistDto){
         ArtistEntity artistEntity = new ArtistEntity();
         artistEntity.setArtistName(artistDto.artistName());
+        artistEntity.setProfileImageURL(artistDto.profileImageURL());
         artistEntity.setArtistInformation(artistDto.artistInformation());
         artistEntity.setEmail(artistDto.email());
         return artistEntity;
     }
 
     public ArtistResponseDto toArtistDto(ArtistEntity artistEntity){
-        return new ArtistResponseDto(artistEntity.getArtistID(), artistEntity.getArtistName(), artistEntity.getArtistInformation(), artistEntity.getEmail(), artistEntity.getSongs());
+        return new ArtistResponseDto(artistEntity.getId(), artistEntity.getArtistName(), artistEntity.getProfileImageURL(), artistEntity.getArtistInformation(), artistEntity.getEmail(), artistEntity.getSongs());
     }
 
     public List<ArtistResponseDto> toSongDto(List<ArtistEntity> artists){

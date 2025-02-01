@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class SongListMapper {
     public SongListResponseDto toSongListDto(SongListEntity songList){
-        return new SongListResponseDto(songList.getSongListId(), songList.getPlayListName(), songList.getSongList());
+        return new SongListResponseDto(songList.getId(), songList.getPlayListName(), songList.getSongList());
     }
 
     public SongListEntity toSongListEntity(SongListDto songListDto){

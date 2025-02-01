@@ -1,4 +1,4 @@
-package Artalia.com.example.MusicBox.Service;
+package Artalia.com.example.MusicBox.ExternalAPI;
 
 import java.io.IOException;
 import java.net.URI;
@@ -6,8 +6,10 @@ import java.net.URISyntaxException;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
+
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+
 import Artalia.com.example.MusicBox.STATS.constant;
 
 @Service

@@ -14,8 +14,16 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.Table;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Entity
+@Table(name = "UserEntity")
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class UserEntity {
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
@@ -26,6 +34,9 @@ public class UserEntity {
 
     @Column(unique= true)
     private String userName;
+
+    @Column
+    private String profileImageURL;
 
     @Column 
     private String firstName;
@@ -43,76 +54,4 @@ public class UserEntity {
     @ManyToMany
     @JoinColumn(name = "subscribers")
     private List<ArtistEntity> subscribedArtist;
-
-    public UserEntity(){
-        super();
-    }
-
-    public UserEntity(String email, String userName, String firstName, String lastName, String password){
-        this.email = email;
-        this.userName = userName;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.password = password;
-    }
-
-    public void setEmail(String email){
-        this.email = email;
-    }
-
-    public void setUserName(String userName){
-        this.userName = userName;
-    }
-
-    public void setFirstName(String firstName){
-        this.firstName = firstName;
-    }
-
-    public void setLastName(String lastName){
-        this.lastName = lastName;
-    }
-
-    public void setPassWord(String passWord){
-        this.password = passWord;
-    }
-
-    public void setSongLibrary(List<SongListEntity> songListLibrary){
-        this.songListLibrary = songListLibrary;
-    }
-
-    public void setSubscribedArtist(List<ArtistEntity> subscribedArtist){
-        this.subscribedArtist = subscribedArtist;
-    }
-
-    public int getUserId(){
-        return id;
-    }
-
-    public String getEmail(){
-        return email;
-    }
-
-    public String getUserName(){
-        return userName;
-    }
-
-    public String getFirstName(){
-        return firstName;
-    }
-
-    public String getLastName(){
-        return lastName;
-    }
-
-    public String getPassWord(){
-        return password;
-    }
-
-    public List<SongListEntity> getSongLibrary(){
-        return songListLibrary;
-    }
-
-    public List<ArtistEntity> getSubscribedArtist(){
-        return subscribedArtist;
-    }
 }

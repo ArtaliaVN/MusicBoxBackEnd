@@ -10,15 +10,26 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Entity
+@Table(name = "SongEntity")
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class SongEntity {
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     private int id;
 
-    @Column(length = 500)
+    @Column
     private String songLink;
+
+    @Column
+    private String coverImageURL;
 
     @Column
     private int songLength;
@@ -33,70 +44,4 @@ public class SongEntity {
     @JoinColumn(name = "artist_id")
     @JsonBackReference
     private ArtistEntity artist;
-
-    public SongEntity(){
-        super();
-    }
-
-    public SongEntity(String songLink, String songName, String artistName, int songLength){
-        this.songLink = songLink;
-        this.songName = songName;
-        this.artistName = artistName;
-        this.songLength = songLength;
-    }
-
-    public SongEntity(int id, String songLink, String songName, String artistName, int songLength){
-        this.id = id;
-        this.songLink = songLink;
-        this.songName = songName;
-        this.artistName = artistName;
-        this.songLength = songLength;
-    }
-    public void setSongId(int id){
-        this.id = id;
-    }
-
-    public void setSongLink(String songLink){
-        this.songLink = songLink;
-    }
-
-    public void setSongLength(int songLength){
-        this.songLength = songLength;
-    }
-
-    public void setSongName(String songName){
-        this.songName = songName;
-    }
-    
-    public void setArtistName(String artistName){
-        this.artistName = artistName;
-    }
-
-    public void setArtist(ArtistEntity artist){
-        this.artist = artist;
-    }
-
-    public int getSongID(){
-        return id;
-    }
-
-    public String getSongLink(){
-        return songLink;
-    }
-
-    public int getSongLength(){
-        return songLength;
-    }
-
-    public String getSongName(){
-        return songName;
-    }
-    
-    public String getArtistName(){
-        return artistName;
-    }
-
-    public ArtistEntity getArtist(){
-        return artist;
-    }
 }

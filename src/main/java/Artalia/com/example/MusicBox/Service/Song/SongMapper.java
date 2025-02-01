@@ -12,17 +12,18 @@ public class SongMapper {
     public SongEntity toSongEntity(SongDto songDto){
         SongEntity songEntity = new SongEntity();
         songEntity.setSongLink(songDto.songLink());
+        songEntity.setCoverImageURL(songDto.coverImageURL());
         songEntity.setSongLength(songDto.songLength());
         songEntity.setSongName(songDto.songName());
         songEntity.setArtistName(songDto.artistName());
         ArtistEntity artistEntity = new ArtistEntity();
-        artistEntity.setArtistID(songDto.artist_id());
+        artistEntity.setId(songDto.artist_id());
         songEntity.setArtist(artistEntity);
         return songEntity;
     }
 
     public SongResponseDto toSongDto(SongEntity songEntity){
-        return new SongResponseDto(songEntity.getSongID(), songEntity.getSongLink(), songEntity.getSongLength(),songEntity.getSongName(), songEntity.getArtistName());
+        return new SongResponseDto(songEntity.getId(), songEntity.getSongLink(), songEntity.getCoverImageURL(), songEntity.getSongLength(),songEntity.getSongName(), songEntity.getArtistName());
     }
 
     public List<SongResponseDto> toSongDto(List<SongEntity> songs){

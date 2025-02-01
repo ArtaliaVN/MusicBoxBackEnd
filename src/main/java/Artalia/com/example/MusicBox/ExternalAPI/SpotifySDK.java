@@ -1,6 +1,7 @@
-package Artalia.com.example.MusicBox.Service;
+package Artalia.com.example.MusicBox.ExternalAPI;
 
 import org.springframework.stereotype.Service;
+
 import se.michaelthelin.spotify.SpotifyApi;
 
 @Service
