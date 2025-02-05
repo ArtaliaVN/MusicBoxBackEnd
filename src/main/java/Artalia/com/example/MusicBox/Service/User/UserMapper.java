@@ -32,7 +32,7 @@ public class UserMapper {
             userEntity.getSongListLibrary()
         );
     }
-
+    
     public List<UserResponseDto> toUserDto(List<UserEntity> userEntities){
         return userEntities
                 .stream()

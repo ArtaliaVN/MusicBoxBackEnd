@@ -1,8 +1,12 @@
 package Artalia.com.example.MusicBox.Service.User;
 
+import java.io.File;
+import java.io.IOException;
+import java.security.GeneralSecurityException;
 import java.util.List;
-
 import org.springframework.stereotype.Service;
+
+import Artalia.com.example.MusicBox.Service.GoogleDrive.DriveService;
 
 @Service
 public class UserService {
@@ -34,5 +38,20 @@ public class UserService {
 
     public void deleteById(int id){
         userRepository.deleteById(id);
+    }
+
+    public UserResponseDto updateById(int id, File image) throws IOException, GeneralSecurityException{
+        UserEntity userEntity = userRepository.findById(id).orElse(null);
+        DriveService service = new DriveService();
+        String imageID = service.uploadImageToFolder("user", image, image.getName());
+        String imageURL = DriveService.postfixURL + imageID;
+        userEntity.setImage(imageID);
+        userEntity.setImageURL(imageURL);
+        userRepository.save(userEntity);
+        return userMapper.toUserDto(userEntity);
+    }
+
+    public UserRepository getRepo(){
+        return userRepository;
     }
 }
