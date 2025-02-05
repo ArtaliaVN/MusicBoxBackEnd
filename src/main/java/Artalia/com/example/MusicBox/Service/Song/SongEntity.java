@@ -2,7 +2,7 @@ package Artalia.com.example.MusicBox.Service.Song;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
-import Artalia.com.example.MusicBox.Service.Artist.ArtistEntity;
+import Artalia.com.example.MusicBox.Service.User.UserEntity;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -25,23 +25,26 @@ public class SongEntity {
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     private int id;
 
-    @Column
-    private String songLink;
-
-    @Column
-    private String coverImageURL;
-
-    @Column
-    private int songLength;
-
     @Column(length = 25)
     private String songName;
     
     @Column(length = 25)
     private String artistName;
 
+    @Column (nullable=true)
+    private String imageURL;
+
+    @Column (nullable=true)
+    private String image;
+
+    @Column (nullable=true)
+    private String audioURL;
+
+    @Column (nullable=true)
+    private String audio;
+
     @ManyToOne
-    @JoinColumn(name = "artist_id")
+    @JoinColumn(name = "user_id")
     @JsonBackReference
-    private ArtistEntity artist;
+    private UserEntity artist;
 }

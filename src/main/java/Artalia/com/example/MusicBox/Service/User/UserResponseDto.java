@@ -2,16 +2,17 @@ package Artalia.com.example.MusicBox.Service.User;
 
 import java.util.List;
 
-import Artalia.com.example.MusicBox.Service.Artist.ArtistEntity;
+import Artalia.com.example.MusicBox.Service.Song.SongEntity;
 import Artalia.com.example.MusicBox.Service.SongList.SongListEntity;
 
 public record UserResponseDto(
     int id,
     String email,
     String userName,
-    String profileImageURL,
     String firstName,
     String lastName,
-    List<SongListEntity> songListLibrary,
-    List<ArtistEntity> subscribedArtist
+    String imageURL,
+    String imageID,
+    List<SongEntity> songs,
+    List<SongListEntity> songListLibrary
 ) {}

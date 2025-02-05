@@ -21,17 +21,17 @@ public class SongListDatabaseController {
         this.songListService = songListService;
     }
 
-    @PostMapping("/songlist/post")
+    @PostMapping("/songlist")
     public SongListResponseDto post(@RequestBody SongListDto songListDto){
         return songListService.postSongList(songListDto);
     }
 
-    @GetMapping("/songlist/get/id={id}")
+    @GetMapping("/songlist/id={id}/list")
     public SongListResponseDto getById(@PathVariable("id") int id){
         return songListService.getById(id);
     }
 
-    @GetMapping("/songlist/get/all")
+    @GetMapping("/songlist/all/lists")
     public List<SongListResponseDto> getAll(){
         return songListService.getAll();
     }

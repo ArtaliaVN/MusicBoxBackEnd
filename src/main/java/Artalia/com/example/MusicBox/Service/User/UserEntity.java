@@ -4,15 +4,13 @@ import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
-import Artalia.com.example.MusicBox.Service.Artist.ArtistEntity;
+import Artalia.com.example.MusicBox.Service.Song.SongEntity;
 import Artalia.com.example.MusicBox.Service.SongList.SongListEntity;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
@@ -35,9 +33,6 @@ public class UserEntity {
     @Column(unique= true)
     private String userName;
 
-    @Column
-    private String profileImageURL;
-
     @Column 
     private String firstName;
 
@@ -47,11 +42,17 @@ public class UserEntity {
     @Column
     private String password;
 
+    @Column (nullable=true)
+    private String imageURL;
+
+    @Column (nullable=true)
+    private String image;
+
     @OneToMany(mappedBy = "user")
     @JsonManagedReference
     private List<SongListEntity> songListLibrary;
 
-    @ManyToMany
-    @JoinColumn(name = "subscribers")
-    private List<ArtistEntity> subscribedArtist;
+    @OneToMany(mappedBy = "artist")
+    @JsonManagedReference
+    private List<SongEntity> songs;
 }

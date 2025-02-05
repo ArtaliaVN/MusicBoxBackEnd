@@ -21,22 +21,22 @@ public class UserDatabaseController {
         this.userService = userService;
     }
 
-    @PostMapping("/user/post")
+    @PostMapping("/user")
     public UserResponseDto postUser(@RequestBody UserDto userDto){
         return userService.postUser(userDto);
     }
 
-    @GetMapping("/user/get/id={id}")
+    @GetMapping("/user/id={id}/account")
     public UserResponseDto getById(@PathVariable("id") int id){
         return userService.getById(id);
     }
 
-    @GetMapping("/user/get/username={username}")
+    @GetMapping("/user/username={username}/account")
     public UserResponseDto getByUserName(@PathVariable("username") String userName){
         return userService.getByUserName(userName);
     }
 
-    @GetMapping("/user/get/all")
+    @GetMapping("/user/accounts")
     public List<UserResponseDto> getAll(){
         return userService.getAll();
     }

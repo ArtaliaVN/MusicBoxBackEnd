@@ -16,8 +16,8 @@ public class SongService {
 
     public SongResponseDto postSong(SongDto songDto){
         SongEntity songEntity = songMapper.toSongEntity(songDto);
-        SongResponseDto songResponseDto = songMapper.toSongDto(songEntity);
         songRepository.save(songEntity);
+        SongResponseDto songResponseDto = songMapper.toSongDto(songEntity);
         return songResponseDto;
     }
 

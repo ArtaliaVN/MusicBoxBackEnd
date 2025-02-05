@@ -21,32 +21,32 @@ public class SongDatabaseController {
         this.songService = songService;
     }
 
-    @PostMapping("/song/post")
+    @PostMapping("/song")
     public SongResponseDto post(@RequestBody SongDto songDto){
         return songService.postSong(songDto);
     }
 
-    @GetMapping("/song/get/id={id}")
+    @GetMapping("/song/id={id}/account")
     public SongResponseDto getById(@PathVariable("id") int id){
         return songService.getById(id);
     }
 
-    @GetMapping("/song/get/songName={songName}")
+    @GetMapping("/song/songName={songName}/account")
     public List<SongResponseDto> getBySongName(@PathVariable String songName){
         return songService.getBySongName(songName);
     }
 
-    @GetMapping("/song/get/artistName={artistName}")
+    @GetMapping("/song/artistName={artistName}/account")
     public List<SongResponseDto> getByArtistName(@PathVariable String artistName){
         return songService.getByArtistName(artistName);
     }
 
-    @GetMapping("/song/get/all")
+    @GetMapping("/song/accounts")
     public List<SongResponseDto> getAll(){
         return songService.getAll();
     }
 
-    @DeleteMapping("/song/delete/id={id}")
+    @DeleteMapping("/song/remove/id={id}")
     public void deleteById(@PathVariable("id") int id){
         songService.deleteById(id);
     }

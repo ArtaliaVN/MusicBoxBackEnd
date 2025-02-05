@@ -5,25 +5,34 @@ import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 
-import Artalia.com.example.MusicBox.Service.Artist.ArtistEntity;
+import Artalia.com.example.MusicBox.Service.User.UserEntity;
 
 @Service
 public class SongMapper {
     public SongEntity toSongEntity(SongDto songDto){
         SongEntity songEntity = new SongEntity();
-        songEntity.setSongLink(songDto.songLink());
-        songEntity.setCoverImageURL(songDto.coverImageURL());
-        songEntity.setSongLength(songDto.songLength());
         songEntity.setSongName(songDto.songName());
         songEntity.setArtistName(songDto.artistName());
-        ArtistEntity artistEntity = new ArtistEntity();
-        artistEntity.setId(songDto.artist_id());
-        songEntity.setArtist(artistEntity);
+        UserEntity userEntity = new UserEntity();
+        userEntity.setId(songDto.user_id());
+        songEntity.setArtist(userEntity);
+        songEntity.setImage(songDto.imageID());
+        songEntity.setImageURL(songDto.imageURL());
+        songEntity.setAudio(songDto.audioID());
+        songEntity.setAudioURL(songDto.audioURL());
         return songEntity;
     }
 
     public SongResponseDto toSongDto(SongEntity songEntity){
-        return new SongResponseDto(songEntity.getId(), songEntity.getSongLink(), songEntity.getCoverImageURL(), songEntity.getSongLength(),songEntity.getSongName(), songEntity.getArtistName());
+        return new SongResponseDto(
+            songEntity.getId(), 
+            songEntity.getSongName(), 
+            songEntity.getArtistName(),
+            songEntity.getImageURL(),
+            songEntity.getImage(),
+            songEntity.getAudioURL(),
+            songEntity.getAudio()
+        );
     }
 
     public List<SongResponseDto> toSongDto(List<SongEntity> songs){
