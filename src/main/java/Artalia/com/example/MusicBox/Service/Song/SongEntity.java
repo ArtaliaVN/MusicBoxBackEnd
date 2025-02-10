@@ -31,17 +31,17 @@ public class SongEntity {
     @Column(length = 25)
     private String artistName;
 
-    @Column (nullable=true)
-    private String imageURL;
+    @Column 
+    private String imageURL = "null";
 
-    @Column (nullable=true)
-    private String image;
+    @Column 
+    private String image = "null";
 
-    @Column (nullable=true)
-    private String audioURL;
+    @Column
+    private String audioURL = "null";
 
-    @Column (nullable=true)
-    private String audio;
+    @Column 
+    private String audio = "null";
 
     @ManyToOne
     @JoinColumn(name = "user_id")

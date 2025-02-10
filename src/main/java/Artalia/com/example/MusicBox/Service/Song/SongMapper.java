@@ -16,10 +16,6 @@ public class SongMapper {
         UserEntity userEntity = new UserEntity();
         userEntity.setId(songDto.user_id());
         songEntity.setArtist(userEntity);
-        songEntity.setImage(songDto.imageID());
-        songEntity.setImageURL(songDto.imageURL());
-        songEntity.setAudio(songDto.audioID());
-        songEntity.setAudioURL(songDto.audioURL());
         return songEntity;
     }
 

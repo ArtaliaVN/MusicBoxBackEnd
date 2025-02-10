@@ -1,8 +1,13 @@
 package Artalia.com.example.MusicBox.Service.Song;
 
+import java.io.File;
+import java.io.IOException;
+import java.security.GeneralSecurityException;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
+
+import Artalia.com.example.MusicBox.Service.GoogleDrive.DriveService;
 
 @Service
 public class SongService {
@@ -39,5 +44,39 @@ public class SongService {
 
     public void deleteById(int id){
         songRepository.deleteById(id);
+    }
+
+    public SongResponseDto updateImageById(int id, File image) throws IOException, GeneralSecurityException{
+        SongEntity songEntity = songRepository.findById(id).orElse(null);
+        DriveService service = new DriveService();
+        String imageID = service.uploadImageToFolder("song", image, image.getName());
+        String imageURL = DriveService.postfixURL + imageID;
+        songEntity.setImage(imageID);
+        songEntity.setImageURL(imageURL);
+        songRepository.save(songEntity);
+        return songMapper.toSongDto(songEntity);
+    }
+
+    public SongResponseDto updateAudioById(int id, File audio) throws IOException, GeneralSecurityException{
+        SongEntity songEntity = songRepository.findById(id).orElse(null);
+        DriveService service = new DriveService();
+        String imageID = service.uploadImageToFolder("song", audio, audio.getName());
+        String imageURL = DriveService.postfixURL + imageID;
+        songEntity.setImage(imageID);
+        songEntity.setImageURL(imageURL);
+        songRepository.save(songEntity);
+        return songMapper.toSongDto(songEntity);
+    }
+
+    public byte[] getImageBySongID(int id) throws IOException, GeneralSecurityException{
+        DriveService service = new DriveService();
+        SongResponseDto songResponseDto = getById(id);
+        return service.downloadFromFolder(songResponseDto.imageID());
+    }
+
+    public byte[] getAudioBySongID(int id) throws IOException, GeneralSecurityException{
+        DriveService service = new DriveService();
+        SongResponseDto songResponseDto = getById(id);
+        return service.downloadFromFolder(songResponseDto.audioID());
     }
 }

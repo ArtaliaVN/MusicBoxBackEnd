@@ -5,7 +5,5 @@ public record UserDto (
     String userName,
     String firstName,
     String lastName,
-    String password,
-    String imageURL,
-    String imageID
+    String password
 ){}

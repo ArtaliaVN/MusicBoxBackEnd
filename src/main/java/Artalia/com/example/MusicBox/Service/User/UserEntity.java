@@ -42,11 +42,11 @@ public class UserEntity {
     @Column
     private String password;
 
-    @Column (nullable=true)
-    private String imageURL;
+    @Column 
+    private String imageURL = "null";
 
-    @Column (nullable=true)
-    private String image;
+    @Column 
+    private String imageID = "null";
 
     @OneToMany(mappedBy = "user")
     @JsonManagedReference

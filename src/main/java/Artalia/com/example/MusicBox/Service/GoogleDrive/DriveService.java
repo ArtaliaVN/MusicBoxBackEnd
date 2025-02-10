@@ -67,12 +67,14 @@ public class DriveService {
         }
     }
 
-    public ByteArrayOutputStream downloadFromFolder(String imageID) throws IOException, GeneralSecurityException{
+    public byte[] downloadFromFolder(String imageID) throws IOException, GeneralSecurityException{
         try {
             Drive service = createDriveService();
             OutputStream outputStream = new ByteArrayOutputStream();
             service.files().get(imageID).executeMediaAndDownloadTo(outputStream);
-            return (ByteArrayOutputStream) outputStream;
+            ByteArrayOutputStream byteOutputStream = (ByteArrayOutputStream) outputStream;
+            byte[] result = byteOutputStream.toByteArray();
+            return result;
         } catch (GoogleJsonResponseException e) {
             System.err.println("Unable to move file: " + e.getDetails());
             throw e;

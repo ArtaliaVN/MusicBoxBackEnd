@@ -14,8 +14,6 @@ public class UserMapper {
         userEntity.setLastName(userDto.lastName());
         userEntity.setUserName(userDto.userName());
         userEntity.setPassword(userDto.password());
-        userEntity.setImage(userDto.imageID());
-        userEntity.setImageURL(userDto.imageURL());
         return userEntity;
     }
 
@@ -27,7 +25,7 @@ public class UserMapper {
             userEntity.getFirstName(), 
             userEntity.getLastName(), 
             userEntity.getImageURL(), 
-            userEntity.getImage(), 
+            userEntity.getImageID(), 
             userEntity.getSongs(), 
             userEntity.getSongListLibrary()
         );

@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.security.GeneralSecurityException;
 import java.util.List;
+
 import org.springframework.stereotype.Service;
 
 import Artalia.com.example.MusicBox.Service.GoogleDrive.DriveService;
@@ -32,6 +33,10 @@ public class UserService {
         return userMapper.toUserDto(userRepository.findByUserName(userName));
     }
 
+    public UserResponseDto getByEmail(String email){
+        return userMapper.toUserDto(userRepository.findByEmail(email));
+    }
+
     public List<UserResponseDto> getAll(){
         return userMapper.toUserDto(userRepository.findAll());
     }
@@ -40,12 +45,12 @@ public class UserService {
         userRepository.deleteById(id);
     }
 
-    public UserResponseDto updateById(int id, File image) throws IOException, GeneralSecurityException{
+    public UserResponseDto updateImageById(int id, File image) throws IOException, GeneralSecurityException{
         UserEntity userEntity = userRepository.findById(id).orElse(null);
         DriveService service = new DriveService();
         String imageID = service.uploadImageToFolder("user", image, image.getName());
         String imageURL = DriveService.postfixURL + imageID;
-        userEntity.setImage(imageID);
+        userEntity.setImageID(imageID);
         userEntity.setImageURL(imageURL);
         userRepository.save(userEntity);
         return userMapper.toUserDto(userEntity);
