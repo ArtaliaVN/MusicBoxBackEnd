@@ -1,9 +1,8 @@
 package Artalia.com.example.MusicBox.Service.GoogleDrive;
 
-import java.io.ByteArrayOutputStream;
+import java.io.BufferedInputStream;
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.OutputStream;
 import java.security.GeneralSecurityException;
 import java.util.Collections;
 
@@ -13,7 +12,6 @@ import com.google.api.client.googleapis.javanet.GoogleNetHttpTransport;
 import com.google.api.client.googleapis.json.GoogleJsonResponseException;
 import com.google.api.client.http.FileContent;
 import com.google.api.client.http.HttpRequestInitializer;
-import com.google.api.client.http.InputStreamContent;
 import com.google.api.client.json.JsonFactory;
 import com.google.api.client.json.gson.GsonFactory;
 import com.google.api.services.drive.Drive;
@@ -52,7 +50,7 @@ public class DriveService {
         File metaData = new File();
         metaData.setName(prefix+"_audio_"+name);
         metaData.setParents(Collections.singletonList(folderId));
-        InputStreamContent mediaContent = new InputStreamContent("audio/" + FilenameUtils.getExtension(file.getName()), new FileInputStream(file));
+        FileContent mediaContent = new FileContent("audio/mpeg", file);
         try {
             Drive service = createDriveService();
             File uploadedFile = service.files().create(metaData, mediaContent)
@@ -70,10 +68,8 @@ public class DriveService {
     public byte[] downloadFromFolder(String imageID) throws IOException, GeneralSecurityException{
         try {
             Drive service = createDriveService();
-            OutputStream outputStream = new ByteArrayOutputStream();
-            service.files().get(imageID).executeMediaAndDownloadTo(outputStream);
-            ByteArrayOutputStream byteOutputStream = (ByteArrayOutputStream) outputStream;
-            byte[] result = byteOutputStream.toByteArray();
+            BufferedInputStream inputStream = new BufferedInputStream(service.files().get(imageID).executeAsInputStream());
+            byte[] result = inputStream.readAllBytes();
             return result;
         } catch (GoogleJsonResponseException e) {
             System.err.println("Unable to move file: " + e.getDetails());

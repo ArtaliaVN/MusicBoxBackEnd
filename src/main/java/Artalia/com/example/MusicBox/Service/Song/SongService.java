@@ -49,7 +49,7 @@ public class SongService {
     public SongResponseDto updateImageById(int id, File image) throws IOException, GeneralSecurityException{
         SongEntity songEntity = songRepository.findById(id).orElse(null);
         DriveService service = new DriveService();
-        String imageID = service.uploadImageToFolder("song", image, image.getName());
+        String imageID = service.uploadImageToFolder("song", image, songEntity.getArtistName());
         String imageURL = DriveService.postfixURL + imageID;
         songEntity.setImage(imageID);
         songEntity.setImageURL(imageURL);
@@ -60,10 +60,10 @@ public class SongService {
     public SongResponseDto updateAudioById(int id, File audio) throws IOException, GeneralSecurityException{
         SongEntity songEntity = songRepository.findById(id).orElse(null);
         DriveService service = new DriveService();
-        String imageID = service.uploadImageToFolder("song", audio, audio.getName());
-        String imageURL = DriveService.postfixURL + imageID;
-        songEntity.setImage(imageID);
-        songEntity.setImageURL(imageURL);
+        String audioID = service.uploadAudioToFolder("song", audio, songEntity.getArtistName());
+        String audioURL = DriveService.postfixURL + audioID;
+        songEntity.setAudio(audioID);
+        songEntity.setAudioURL(audioURL);
         songRepository.save(songEntity);
         return songMapper.toSongDto(songEntity);
     }
