@@ -43,10 +43,10 @@ public class UserEntity {
     private String password;
 
     @Column 
-    private String imageURL = "null";
+    private String imageURL = "https://drive.google.com/file/d/14YmUPBwmEkuvUee00levMbocNz-XvkWs/view?usp=drivesdk";
 
     @Column 
-    private String imageID = "null";
+    private String imageID = "14YmUPBwmEkuvUee00levMbocNz-XvkWs";
 
     @OneToMany(mappedBy = "user")
     @JsonManagedReference

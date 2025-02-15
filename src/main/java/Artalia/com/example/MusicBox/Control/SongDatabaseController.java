@@ -37,12 +37,12 @@ public class SongDatabaseController {
         return songService.getById(id);
     }
 
-    @GetMapping("/song/songName={songName}/account")
+    @GetMapping("/song/songName={songName}/items")
     public List<SongResponseDto> getBySongName(@PathVariable String songName){
         return songService.getBySongName(songName);
     }
 
-    @GetMapping("/song/artistName={artistName}/account")
+    @GetMapping("/song/artistName={artistName}/items")
     public List<SongResponseDto> getByArtistName(@PathVariable String artistName){
         return songService.getByArtistName(artistName);
     }
@@ -52,9 +52,14 @@ public class SongDatabaseController {
         return songService.getAll();
     }
 
-    @GetMapping("/song/image/{id}/item")
+    @GetMapping("/song/image/id={id}/item")
     public byte[] getImageBySongId(@PathVariable int id) throws IOException, GeneralSecurityException{
         return songService.getImageBySongID(id);
+    }
+
+    @GetMapping("/song/audio/id={id}/item")
+    public byte[] getSongAudioById(@PathVariable int id) throws IOException, GeneralSecurityException{
+        return songService.getAudioBySongID(id);
     }
 
     @DeleteMapping("/song/remove/id={id}")

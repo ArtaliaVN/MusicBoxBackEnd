@@ -5,9 +5,12 @@ import java.io.IOException;
 import java.security.GeneralSecurityException;
 import java.util.List;
 
+import org.springframework.core.io.PathResource;
+import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Service;
 
 import Artalia.com.example.MusicBox.Service.GoogleDrive.DriveService;
+import reactor.core.publisher.Mono;
 
 @Service
 public class SongService {
@@ -49,8 +52,8 @@ public class SongService {
     public SongResponseDto updateImageById(int id, File image) throws IOException, GeneralSecurityException{
         SongEntity songEntity = songRepository.findById(id).orElse(null);
         DriveService service = new DriveService();
-        String imageID = service.uploadImageToFolder("song", image, songEntity.getArtistName());
-        String imageURL = DriveService.postfixURL + imageID;
+        String imageID = service.uploadImageToFolder("song", image, songEntity.getSongName());
+        String imageURL = service.getWebViewLink(imageID);
         songEntity.setImage(imageID);
         songEntity.setImageURL(imageURL);
         songRepository.save(songEntity);
@@ -60,8 +63,8 @@ public class SongService {
     public SongResponseDto updateAudioById(int id, File audio) throws IOException, GeneralSecurityException{
         SongEntity songEntity = songRepository.findById(id).orElse(null);
         DriveService service = new DriveService();
-        String audioID = service.uploadAudioToFolder("song", audio, songEntity.getArtistName());
-        String audioURL = DriveService.postfixURL + audioID;
+        String audioID = service.uploadAudioToFolder("song", audio, songEntity.getSongName());
+        String audioURL = service.getWebViewLink(audioID);
         songEntity.setAudio(audioID);
         songEntity.setAudioURL(audioURL);
         songRepository.save(songEntity);
@@ -78,5 +81,10 @@ public class SongService {
         DriveService service = new DriveService();
         SongResponseDto songResponseDto = getById(id);
         return service.downloadFromFolder(songResponseDto.audioID());
+    }
+
+    public Mono<Resource> getSongAudioByID(int id){
+        SongResponseDto songResponseDto = getById(id);
+        return Mono.fromSupplier(()-> new PathResource(songResponseDto.audioURL()));
     }
 }

@@ -48,12 +48,18 @@ public class UserService {
     public UserResponseDto updateImageById(int id, File image) throws IOException, GeneralSecurityException{
         UserEntity userEntity = userRepository.findById(id).orElse(null);
         DriveService service = new DriveService();
-        String imageID = service.uploadImageToFolder("user", image, image.getName());
-        String imageURL = DriveService.postfixURL + imageID;
+        String imageID = service.uploadImageToFolder("user", image, userEntity.getUserName());
+        String imageURL = service.getWebViewLink(imageID);
         userEntity.setImageID(imageID);
         userEntity.setImageURL(imageURL);
         userRepository.save(userEntity);
         return userMapper.toUserDto(userEntity);
+    }
+
+    public byte[] getImageByUserID(int id) throws IOException, GeneralSecurityException{
+        DriveService service = new DriveService();
+        UserResponseDto userResponseDto = getById(id);
+        return service.downloadFromFolder(userResponseDto.imageID());
     }
 
     public UserRepository getRepo(){

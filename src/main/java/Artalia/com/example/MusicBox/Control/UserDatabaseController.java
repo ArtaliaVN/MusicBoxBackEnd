@@ -52,12 +52,17 @@ public class UserDatabaseController {
         return userService.getAll();
     }
 
-    @DeleteMapping("/user/delete/{id}")
+    @GetMapping("/user/image/id={id}/account")
+    public byte[] getImageByUserId(@PathVariable int id) throws IOException, GeneralSecurityException{
+        return userService.getImageByUserID(id);
+    }
+
+    @DeleteMapping("/user/delete/id={id}")
     public void deleteById(@PathVariable("id") int id){
         userService.deleteById(id);
     }
 
-    @PatchMapping("/user/{id}/account/image/update")
+    @PatchMapping("/user/id={id}/account/image/update")
     public String updateImageById(@PathVariable("id") int id,@RequestParam("image") MultipartFile image) throws IOException, GeneralSecurityException{
         if(image.isEmpty()){
             return "No file detected";
