@@ -47,6 +47,11 @@ public class UserDatabaseController {
         return userService.getByEmail(email);
     }
 
+    @GetMapping("/user/username={username}_email={email}/account")
+    public UserResponseDto getByUserNameOrEmail(@PathVariable("username") String username, @PathVariable("email") String email){
+        return userService.getByUserNameOrEmail(username, email);
+    }
+
     @GetMapping("/user/accounts")
     public List<UserResponseDto> getAll(){
         return userService.getAll();

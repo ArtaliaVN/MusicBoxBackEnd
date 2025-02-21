@@ -37,6 +37,10 @@ public class UserService {
         return userMapper.toUserDto(userRepository.findByEmail(email));
     }
 
+    public UserResponseDto getByUserNameOrEmail(String userName, String email){
+        return userMapper.toUserDto(userRepository.findByUserNameOrEmail(userName, email));
+    }
+
     public List<UserResponseDto> getAll(){
         return userMapper.toUserDto(userRepository.findAll());
     }
