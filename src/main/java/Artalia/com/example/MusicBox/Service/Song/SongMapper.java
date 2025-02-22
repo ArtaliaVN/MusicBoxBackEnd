@@ -25,9 +25,9 @@ public class SongMapper {
             songEntity.getSongName(), 
             songEntity.getArtistName(),
             songEntity.getImageURL(),
-            songEntity.getImage(),
+            songEntity.getImageID(),
             songEntity.getAudioURL(),
-            songEntity.getAudio()
+            songEntity.getAudioID()
         );
     }
 

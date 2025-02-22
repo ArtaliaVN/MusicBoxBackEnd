@@ -35,13 +35,13 @@ public class SongEntity {
     private String imageURL = "null";
 
     @Column 
-    private String image = "null";
+    private String imageID = "null";
 
     @Column
     private String audioURL = "null";
 
     @Column 
-    private String audio = "null";
+    private String audioID = "null";
 
     @ManyToOne
     @JoinColumn(name = "user_id")

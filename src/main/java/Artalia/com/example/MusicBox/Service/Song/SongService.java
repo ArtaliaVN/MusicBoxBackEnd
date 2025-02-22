@@ -54,7 +54,7 @@ public class SongService {
         DriveService service = new DriveService();
         String imageID = service.uploadImageToFolder("song", image, songEntity.getSongName());
         String imageURL = service.getWebViewLink(imageID);
-        songEntity.setImage(imageID);
+        songEntity.setImageID(imageID);
         songEntity.setImageURL(imageURL);
         songRepository.save(songEntity);
         return songMapper.toSongDto(songEntity);
@@ -65,7 +65,7 @@ public class SongService {
         DriveService service = new DriveService();
         String audioID = service.uploadAudioToFolder("song", audio, songEntity.getSongName());
         String audioURL = service.getWebViewLink(audioID);
-        songEntity.setAudio(audioID);
+        songEntity.setAudioID(audioID);
         songEntity.setAudioURL(audioURL);
         songRepository.save(songEntity);
         return songMapper.toSongDto(songEntity);
