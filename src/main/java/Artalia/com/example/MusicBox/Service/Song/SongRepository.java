@@ -8,3 +8,4 @@ public interface SongRepository extends JpaRepository<SongEntity, Integer> {
     List<SongEntity> findBySongName(String songName);
     List<SongEntity> findByArtistName(String artistName);
 }
+ 
