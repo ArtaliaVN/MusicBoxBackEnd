@@ -31,12 +31,12 @@ public class SongListDatabaseController {
         return songListService.getById(id);
     }
 
-    @GetMapping("/songlist/all/lists")
+    @GetMapping("/songlist/lists")
     public List<SongListResponseDto> getAll(){
         return songListService.getAll();
     }
 
-    @DeleteMapping("/songlist/delete/id={id}")
+    @DeleteMapping("/songlist/id={id}/delete")
     public void deleteById(@PathVariable("id") int id){
         songListService.deleteById(id);
     }

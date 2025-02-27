@@ -62,7 +62,7 @@ public class SongDatabaseController {
         return songService.getAudioBySongID(id);
     }
 
-    @DeleteMapping("/song/remove/id={id}")
+    @DeleteMapping("/song/id={id}/delete")
     public void deleteById(@PathVariable("id") int id){
         songService.deleteById(id);
     }

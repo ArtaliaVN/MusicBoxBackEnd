@@ -62,7 +62,7 @@ public class UserDatabaseController {
         return userService.getImageByUserID(id);
     }
 
-    @DeleteMapping("/user/delete/id={id}")
+    @DeleteMapping("/user/id={id}/delete")
     public void deleteById(@PathVariable("id") int id){
         userService.deleteById(id);
     }
