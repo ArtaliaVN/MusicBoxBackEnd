@@ -12,10 +12,12 @@ import org.springframework.stereotype.Service;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import Artalia.com.example.MusicBox.Service.User.UserEntity;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @NoArgsConstructor
+@AllArgsConstructor
 @Data
 @Service
 public class CustomUserDetails implements UserDetails {
@@ -32,7 +34,7 @@ public class CustomUserDetails implements UserDetails {
 
     private Collection<? extends GrantedAuthority> authorities;
 
-    public CustomUserDetails(int id1, String userName, String email, String password, List<GrantedAuthority> authorities){
+    public CustomUserDetails(String userName, String email, String password, List<GrantedAuthority> authorities){
         this.userName = userName;
         this.email = email;
         this.password = password;

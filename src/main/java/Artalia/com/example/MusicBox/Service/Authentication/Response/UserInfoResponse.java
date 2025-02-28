@@ -1,4 +1,4 @@
-package Artalia.com.example.MusicBox.Service.Authentication;
+package Artalia.com.example.MusicBox.Service.Authentication.Response;
 
 import java.util.List;
 
@@ -9,10 +9,9 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class LoginResponse {
+public class UserInfoResponse {
+    private int id;
     private String jwtToken;
     private String userName;
     private List<String> roles;
-
-
 }

@@ -6,7 +6,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import Artalia.com.example.MusicBox.Service.Authentication.AuthenticationService;
-import Artalia.com.example.MusicBox.Service.Authentication.LoginRequest;
+import Artalia.com.example.MusicBox.Service.Authentication.Login.LoginRequest;
+import Artalia.com.example.MusicBox.Service.Authentication.Register.SignUpRequest;
+import jakarta.validation.Valid;
 
 @RestController
 public class AuthenticationController {
@@ -17,7 +19,12 @@ public class AuthenticationController {
     }
 
     @PostMapping("/user/signin")
-    public ResponseEntity<?> authenticateUser(@RequestBody LoginRequest loginRequest){
+    public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest){
         return authenticationService.authenticateUser(loginRequest);
+    }
+
+    @PostMapping("/user/signup")
+    public ResponseEntity<?> authenticateUser(@Valid @RequestBody SignUpRequest signUpRequest){
+        return authenticationService.register(signUpRequest);
     }
 }

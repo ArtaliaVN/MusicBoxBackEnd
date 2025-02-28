@@ -1,4 +1,4 @@
-package Artalia.com.example.MusicBox.Service.Authentication;
+package Artalia.com.example.MusicBox.Service.Authentication.Login;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
