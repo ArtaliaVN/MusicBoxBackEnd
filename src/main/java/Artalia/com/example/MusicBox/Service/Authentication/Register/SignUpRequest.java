@@ -2,13 +2,16 @@ package Artalia.com.example.MusicBox.Service.Authentication.Register;
 
 import java.util.Set;
 
+import Artalia.com.example.MusicBox.Service.ServiceInterface.RequestHandler;
 import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 @Data
+@EqualsAndHashCode(callSuper = true)
 @AllArgsConstructor
-public class SignUpRequest {
+public class SignUpRequest extends RequestHandler {
     @NotBlank
     private String username;
 

@@ -10,46 +10,59 @@ import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Service;
 
 import Artalia.com.example.MusicBox.Service.GoogleDrive.DriveService;
+import Artalia.com.example.MusicBox.Service.ServiceInterface.EntityHandler;
+import Artalia.com.example.MusicBox.Service.ServiceInterface.ItemServiceHandler;
+import Artalia.com.example.MusicBox.Service.ServiceInterface.MapperHandler;
+import Artalia.com.example.MusicBox.Service.ServiceInterface.RequestHandler;
+import Artalia.com.example.MusicBox.Service.ServiceInterface.ResponseHandler;
 import reactor.core.publisher.Mono;
 
 @Service
-public class SongService {
+public class SongService implements ItemServiceHandler{
     private final SongRepository songRepository;
-    private final SongMapper songMapper;
+    private final MapperHandler songMapper;
 
     public SongService(SongRepository songRepository, SongMapper songMapper){
         this.songRepository = songRepository;
         this.songMapper = songMapper;
     }
 
-    public SongResponseDto postSong(SongDto songDto){
-        SongEntity songEntity = songMapper.toSongEntity(songDto);
-        songRepository.save(songEntity);
-        SongResponseDto songResponseDto = songMapper.toSongDto(songEntity);
+    @Override
+    public ResponseHandler post(RequestHandler request){
+        SongDto songDto = (SongDto) request;
+        EntityHandler songEntity = songMapper.toEntity(songDto);
+        songRepository.save((SongEntity) songEntity); 
+        ResponseHandler songResponseDto = songMapper.toDto(songEntity);
         return songResponseDto;
     }
 
-    public SongResponseDto getById(int id){
-        return songMapper.toSongDto(songRepository.findById(id).orElse(null));
+    @Override
+    public ResponseHandler findById(int id){
+        return songMapper.toDto(songRepository.findById(id).orElse(null));
     }
 
-    public List<SongResponseDto> getBySongName(String songName){
-        return songMapper.toSongDto(songRepository.findBySongName(songName));
+    @Override
+    public List<? extends ResponseHandler> findByItemName(String songName){
+        return songMapper.toDto(songRepository.findBySongName(songName));
     }
 
-    public List<SongResponseDto> getByArtistName(String artistName){
-        return songMapper.toSongDto(songRepository.findByArtistName(artistName));
+    @Override
+    public List<? extends ResponseHandler> findByUsername(String userName){
+        return songMapper.toDto(songRepository.findByArtistName(userName));
     }
 
-    public List<SongResponseDto> getAll(){
-        return songMapper.toSongDto(songRepository.findAll());
+    @Override
+    public List<? extends ResponseHandler> getAll(){
+        return songMapper.toDto(songRepository.findAll());
     }
 
+    @Override
     public void deleteById(int id){
         songRepository.deleteById(id);
     }
 
-    public SongResponseDto updateImageById(int id, File image) throws IOException, GeneralSecurityException{
+    @Override
+    public ResponseHandler updateImageById(int id, File image) throws IOException, GeneralSecurityException{
         SongEntity songEntity = songRepository.findById(id).orElse(null);
         DriveService service = new DriveService();
         String imageID = service.uploadImageToFolder("song", image, songEntity.getSongName());
@@ -57,10 +70,11 @@ public class SongService {
         songEntity.setImageID(imageID);
         songEntity.setImageURL(imageURL);
         songRepository.save(songEntity);
-        return songMapper.toSongDto(songEntity);
+        return songMapper.toDto(songEntity);
     }
 
-    public SongResponseDto updateAudioById(int id, File audio) throws IOException, GeneralSecurityException{
+    @Override
+    public ResponseHandler updateAudioById(int id, File audio) throws IOException, GeneralSecurityException{
         SongEntity songEntity = songRepository.findById(id).orElse(null);
         DriveService service = new DriveService();
         String audioID = service.uploadAudioToFolder("song", audio, songEntity.getSongName());
@@ -68,23 +82,30 @@ public class SongService {
         songEntity.setAudioID(audioID);
         songEntity.setAudioURL(audioURL);
         songRepository.save(songEntity);
-        return songMapper.toSongDto(songEntity);
+        return songMapper.toDto(songEntity);
     }
 
-    public byte[] getImageBySongID(int id) throws IOException, GeneralSecurityException{
+    @Override
+    public byte[] getImageById(int id) throws IOException, GeneralSecurityException{
         DriveService service = new DriveService();
-        SongResponseDto songResponseDto = getById(id);
-        return service.downloadFromFolder(songResponseDto.imageID());
+        SongResponseDto songResponseDto = (SongResponseDto) findById(id);
+        return service.downloadFromFolder(songResponseDto.getImageID());
     }
 
-    public byte[] getAudioBySongID(int id) throws IOException, GeneralSecurityException{
+    @Override
+    public byte[] getAudioById(int id) throws IOException, GeneralSecurityException{
         DriveService service = new DriveService();
-        SongResponseDto songResponseDto = getById(id);
-        return service.downloadFromFolder(songResponseDto.audioID());
+        SongResponseDto songResponseDto = (SongResponseDto) findById(id);
+        return service.downloadFromFolder(songResponseDto.getAudioID());
     }
 
     public Mono<Resource> getSongAudioByID(int id){
-        SongResponseDto songResponseDto = getById(id);
-        return Mono.fromSupplier(()-> new PathResource(songResponseDto.audioURL()));
+        SongResponseDto songResponseDto = (SongResponseDto) findById(id);
+        return Mono.fromSupplier(()-> new PathResource(songResponseDto.getAudioURL()));
+    }
+
+    @Override
+    public SongRepository getRepo() {
+        return songRepository;
     }
 }

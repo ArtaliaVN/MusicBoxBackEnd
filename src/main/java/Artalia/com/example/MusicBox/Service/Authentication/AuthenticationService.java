@@ -7,11 +7,12 @@ import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import org.springframework.security.core.AuthenticationException;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
@@ -19,13 +20,12 @@ import Artalia.com.example.MusicBox.Service.Authentication.Login.LoginRequest;
 import Artalia.com.example.MusicBox.Service.Authentication.Register.SignUpRequest;
 import Artalia.com.example.MusicBox.Service.Authentication.Response.MessageResponse;
 import Artalia.com.example.MusicBox.Service.Authentication.Response.UserInfoResponse;
+import Artalia.com.example.MusicBox.Service.Role.ApplicationRole;
+import Artalia.com.example.MusicBox.Service.Role.RoleEntity;
+import Artalia.com.example.MusicBox.Service.Role.RoleService;
 import Artalia.com.example.MusicBox.Service.User.UserEntity;
 import Artalia.com.example.MusicBox.Service.User.UserMapper;
 import Artalia.com.example.MusicBox.Service.User.UserService;
-
-import org.springframework.http.HttpStatus;
-
-import Artalia.com.example.MusicBox.Service.Role.RoleEntity;
 
 @Service
 public class AuthenticationService {
@@ -33,12 +33,14 @@ public class AuthenticationService {
     private final AuthenticationManager authenticationManager;
     private final UserService userService;
     private final UserMapper userMapper;
+    private final RoleService roleService;
 
-    public AuthenticationService(JwtUtils jwtUtils, AuthenticationManager authenticationManager, UserService userService, UserMapper userMapper){
+    public AuthenticationService(JwtUtils jwtUtils, AuthenticationManager authenticationManager, UserService userService, UserMapper userMapper, RoleService roleService){
         this.jwtUtils = jwtUtils;
         this.authenticationManager = authenticationManager;
         this.userService = userService;
         this.userMapper = userMapper;
+        this.roleService = roleService;
     }
 
     public ResponseEntity<?> authenticateUser(LoginRequest loginRequest){
@@ -63,8 +65,9 @@ public class AuthenticationService {
         return ResponseEntity.ok(response);
     }
 
+    //Regist new user account from sign up request 
     public ResponseEntity<?> register(SignUpRequest signUpRequest){
-        if(userService.existsByUserName(signUpRequest.getUsername())){
+        if(userService.existsByUsername(signUpRequest.getUsername())){
             return ResponseEntity.badRequest().body(new MessageResponse("Error: Username existed"));
         }
 
@@ -76,15 +79,33 @@ public class AuthenticationService {
             return ResponseEntity.badRequest().body(new MessageResponse("Please enter matching password"));
         }
 
-        UserEntity userEntity = userMapper.toUserEntity(signUpRequest);
+        UserEntity userEntity = userMapper.toEntity(signUpRequest);
         Set<String> strRoles = signUpRequest.getRoles();
         Set<RoleEntity> roles = new HashSet<>();
-
-        if(strRoles.isEmpty()){
-            
-        }  
-
+        assignRoles(roles, roleService, strRoles);
         userEntity.setRoles(roles);
-        return ResponseEntity.ok(userService.postUser(userEntity));
+        return ResponseEntity.ok(userService.post(userEntity));
+    }
+
+    // Assign different roles to user accourding to roles mentioned in the Set<RoleEntity>
+    public void assignRoles(Set<RoleEntity> roles, RoleService roleService, Set<String> strRoles){
+        if(strRoles.isEmpty()){
+            RoleEntity userRole = roleService.findByRoleName(ApplicationRole.ROLE_USER);
+            roles.add(userRole);
+        }  
+        else{
+            strRoles.forEach(role->{
+                switch(role){
+                    case "admin" -> {
+                        RoleEntity adminRole = roleService.findByRoleName(ApplicationRole.ROLE_ADMIN);
+                        roles.add(adminRole);
+                    }
+                    default -> {
+                        RoleEntity userRole = roleService.findByRoleName(ApplicationRole.ROLE_USER);
+                        roles.add(userRole);
+                    }
+                }
+            });
+        }
     }
 }

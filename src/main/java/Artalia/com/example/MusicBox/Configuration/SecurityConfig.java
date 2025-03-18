@@ -36,7 +36,7 @@ public class SecurityConfig {
         .csrf(csrf -> csrf.disable())
         .authorizeHttpRequests((request) -> 
             request
-                .requestMatchers("/user/accounts", "/user/account", "/song/items", "/song/item")
+                .requestMatchers("/user/accounts", "/user/account", "/user/signin", "/user/signup", "/song/items", "/song/item")
                     .permitAll()
                 .requestMatchers("/*/delete", "/song", "/user", "/songlist")
                     .hasRole("USER")

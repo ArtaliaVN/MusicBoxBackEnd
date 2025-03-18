@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
+import Artalia.com.example.MusicBox.Service.ServiceInterface.EntityHandler;
 import Artalia.com.example.MusicBox.Service.Song.SongEntity;
 import Artalia.com.example.MusicBox.Service.User.UserEntity;
 import jakarta.persistence.Column;
@@ -17,14 +18,16 @@ import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 @Entity
 @Table(name = "SongListEntity")
 @Data
+@EqualsAndHashCode(callSuper = true)
 @NoArgsConstructor
 @AllArgsConstructor
-public class SongListEntity {
+public class SongListEntity extends EntityHandler {
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     private int id;

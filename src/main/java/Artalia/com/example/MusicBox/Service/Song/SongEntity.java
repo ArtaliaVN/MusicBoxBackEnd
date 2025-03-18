@@ -2,6 +2,7 @@ package Artalia.com.example.MusicBox.Service.Song;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
+import Artalia.com.example.MusicBox.Service.ServiceInterface.EntityHandler;
 import Artalia.com.example.MusicBox.Service.User.UserEntity;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -13,14 +14,16 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 @Entity
 @Table(name = "SongEntity")
 @Data
+@EqualsAndHashCode(callSuper = true)
 @NoArgsConstructor
 @AllArgsConstructor
-public class SongEntity {
+public class SongEntity extends EntityHandler {
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     private int id;

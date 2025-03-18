@@ -8,24 +8,29 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import Artalia.com.example.MusicBox.Service.Authentication.Register.SignUpRequest;
+import Artalia.com.example.MusicBox.Service.ServiceInterface.EntityHandler;
+import Artalia.com.example.MusicBox.Service.ServiceInterface.MapperHandler;
+import Artalia.com.example.MusicBox.Service.ServiceInterface.RequestHandler;
 
 @Service
-public class UserMapper {
+public class UserMapper implements MapperHandler{
     
     @Autowired
     private PasswordEncoder encoder;
 
-    public UserEntity toUserEntity(UserDto userDto){
+    @Override
+    public UserEntity toEntity(RequestHandler request){
+        UserDto userDto = (UserDto) request;
         UserEntity userEntity = new UserEntity();
-        userEntity.setEmail(userDto.email());
-        userEntity.setFirstName(userDto.firstName());
-        userEntity.setLastName(userDto.lastName());
-        userEntity.setUserName(userDto.userName());
-        userEntity.setPassword(encoder.encode(userDto.password()));
+        userEntity.setEmail(userDto.getEmail());
+        userEntity.setFirstName(userDto.getFirstName());
+        userEntity.setLastName(userDto.getLastName());
+        userEntity.setUserName(userDto.getUserName());
+        userEntity.setPassword(encoder.encode(userDto.getPassword()));
         return userEntity;
     }
 
-    public UserEntity toUserEntity(SignUpRequest signUpRequest){
+    public UserEntity toEntity(SignUpRequest signUpRequest){
         UserEntity userEntity = new UserEntity();
         userEntity.setEmail(signUpRequest.getEmail());
         userEntity.setFirstName(signUpRequest.getFirstname());
@@ -35,7 +40,9 @@ public class UserMapper {
         return userEntity;
     }
 
-    public UserResponseDto toUserDto(UserEntity userEntity){
+    @Override
+    public UserResponseDto toDto(EntityHandler entity){
+        UserEntity userEntity = (UserEntity) entity;
         return new UserResponseDto(
             userEntity.getId(), 
             userEntity.getEmail(), 
@@ -49,10 +56,11 @@ public class UserMapper {
         );
     }
     
-    public List<UserResponseDto> toUserDto(List<UserEntity> userEntities){
+    @Override
+    public List<UserResponseDto> toDto(List<? extends EntityHandler> userEntities){
         return userEntities
                 .stream()
-                .map(this::toUserDto)
+                .map(this::toDto)
                 .collect(Collectors.toList());
     }
 }

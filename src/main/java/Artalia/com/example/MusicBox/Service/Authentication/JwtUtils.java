@@ -3,11 +3,11 @@ import java.security.Key;
 import java.util.Date;
 
 import javax.crypto.SecretKey;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
-
-import jakarta.servlet.http.HttpServletRequest;
-
 import org.springframework.stereotype.Component;
 
 import io.jsonwebtoken.ExpiredJwtException;
@@ -16,8 +16,7 @@ import io.jsonwebtoken.MalformedJwtException;
 import io.jsonwebtoken.UnsupportedJwtException;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import jakarta.servlet.http.HttpServletRequest;
 
 @Component
 public class JwtUtils {
@@ -31,6 +30,7 @@ public class JwtUtils {
 
     public String getJwtFromHeader(HttpServletRequest request){
         String bearerToken = request.getHeader("Authorization");
+        logger.debug("Authorization header: {}", bearerToken);
         if(bearerToken != null && bearerToken.startsWith("Bearer ")){
             return bearerToken.substring(7);
         }

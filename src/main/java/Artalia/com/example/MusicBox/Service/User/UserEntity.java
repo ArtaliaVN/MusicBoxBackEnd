@@ -7,6 +7,7 @@ import java.util.Set;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import Artalia.com.example.MusicBox.Service.Role.RoleEntity;
+import Artalia.com.example.MusicBox.Service.ServiceInterface.EntityHandler;
 import Artalia.com.example.MusicBox.Service.Song.SongEntity;
 import Artalia.com.example.MusicBox.Service.SongList.SongListEntity;
 import jakarta.persistence.CascadeType;
@@ -25,14 +26,16 @@ import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 @Entity
 @Table(name = "UserEntity")
 @Data
+@EqualsAndHashCode(callSuper = true)
 @NoArgsConstructor
 @AllArgsConstructor
-public class UserEntity {
+public class UserEntity extends EntityHandler{
 
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)

@@ -15,8 +15,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import Artalia.com.example.MusicBox.Service.ServiceInterface.ResponseHandler;
 import Artalia.com.example.MusicBox.Service.User.UserDto;
-import Artalia.com.example.MusicBox.Service.User.UserResponseDto;
 import Artalia.com.example.MusicBox.Service.User.UserService;
 
 @RestController
@@ -28,38 +28,38 @@ public class UserDatabaseController {
     }
 
     @PostMapping("/user")
-    public UserResponseDto postUser(@RequestBody UserDto userDto){
-        return userService.postUser(userDto);
+    public ResponseHandler postUser(@RequestBody UserDto userDto){
+        return userService.post(userDto);
     }
 
     @GetMapping("/user/{id}/account")
-    public UserResponseDto getById(@PathVariable("id") int id){
-        return userService.getById(id);
+    public ResponseHandler getById(@PathVariable("id") int id){
+        return userService.findById(id);
     }
 
     @GetMapping("/user/username={username}/account")
-    public UserResponseDto getByUserName(@PathVariable("username") String userName){
-        return userService.getByUserName(userName);
+    public ResponseHandler getByUserName(@PathVariable("username") String userName){
+        return userService.findByUsername(userName);
     }
 
     @GetMapping("/user/email={email}/account")
-    public UserResponseDto getByEmail(@PathVariable("email") String email){
-        return userService.getByEmail(email);
+    public ResponseHandler getByEmail(@PathVariable("email") String email){
+        return userService.findByEmail(email);
     }
 
     @GetMapping("/user/username={username}_email={email}/account")
-    public UserResponseDto getByUserNameOrEmail(@PathVariable("username") String username, @PathVariable("email") String email){
-        return userService.getByUserNameOrEmail(username, email);
+    public ResponseHandler getByUserNameOrEmail(@PathVariable("username") String username, @PathVariable("email") String email){
+        return userService.findByUsernameOrEmail(username, email);
     }
 
     @GetMapping("/user/accounts")
-    public List<UserResponseDto> getAll(){
+    public List<? extends ResponseHandler> getAll(){
         return userService.getAll();
     }
 
     @GetMapping("/user/image/id={id}/account")
     public byte[] getImageByUserId(@PathVariable int id) throws IOException, GeneralSecurityException{
-        return userService.getImageByUserID(id);
+        return userService.getImageById(id);
     }
 
     @DeleteMapping("/user/id={id}/delete")

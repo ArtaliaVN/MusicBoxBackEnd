@@ -5,23 +5,33 @@ import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 
+import Artalia.com.example.MusicBox.Service.ServiceInterface.EntityHandler;
+import Artalia.com.example.MusicBox.Service.ServiceInterface.MapperHandler;
+import Artalia.com.example.MusicBox.Service.ServiceInterface.RequestHandler;
+
 @Service
-public class SongListMapper {
-    public SongListResponseDto toSongListDto(SongListEntity songList){
+public class SongListMapper implements MapperHandler{
+
+    @Override
+    public SongListResponseDto toDto(EntityHandler entity){
+        SongListEntity songList = (SongListEntity) entity;
         return new SongListResponseDto(songList.getId(), songList.getPlayListName(), songList.getSongList());
     }
 
-    public SongListEntity toSongListEntity(SongListDto songListDto){
+    @Override
+    public SongListEntity toEntity(RequestHandler request){
+        SongListDto songListDto = (SongListDto) request;
         SongListEntity songListEntity = new SongListEntity();
-        songListEntity.setPlayListName(songListDto.playListName());
-        songListEntity.setSongList(songListDto.songList());
+        songListEntity.setPlayListName(songListDto.getPlayListName());
+        songListEntity.setSongList(songListDto.getSongList());
         return songListEntity;
     }
 
-    public List<SongListResponseDto> toSongListDto(List<SongListEntity> songListEntities){
+    @Override
+    public List<SongListResponseDto> toDto(List<? extends EntityHandler> songListEntities){
         return songListEntities
                 .stream()
-                .map(this::toSongListDto)
+                .map(this::toDto)
                 .collect(Collectors.toList());
     }
 }

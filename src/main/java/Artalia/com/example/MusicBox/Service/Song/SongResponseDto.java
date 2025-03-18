@@ -1,11 +1,21 @@
 package Artalia.com.example.MusicBox.Service.Song;
 
-public record SongResponseDto(
-        int id,
-        String songName,
-        String artistName,
-        String imageURL,
-        String imageID,
-        String audioURL,
-        String audioID
-) {}
+import Artalia.com.example.MusicBox.Service.ServiceInterface.ResponseHandler;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
+
+@Data
+@EqualsAndHashCode(callSuper = true)
+@AllArgsConstructor
+@NoArgsConstructor
+public class SongResponseDto extends ResponseHandler{
+    private int id;
+    private String songName;
+    private String artistName;
+    private String imageURL;
+    private String imageID;
+    private String audioURL;
+    private String audioID;    
+}
