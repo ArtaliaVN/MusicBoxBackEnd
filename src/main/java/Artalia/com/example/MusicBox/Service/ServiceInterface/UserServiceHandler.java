@@ -3,7 +3,7 @@ package Artalia.com.example.MusicBox.Service.ServiceInterface;
 import org.springframework.stereotype.Component;
 
 @Component
-public interface UserServiceHandler extends ServiceHandler {
+public interface UserServiceHandler extends UserBasedSeviceHandler {
     public ResponseHandler post(EntityHandler entity);
 
     public ResponseHandler findByUsername(String name);

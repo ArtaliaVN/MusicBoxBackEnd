@@ -61,7 +61,7 @@ public class AuthenticationService {
         List<String> roles = userDetails.getAuthorities().stream()
                 .map(item -> item.getAuthority())
                 .collect(Collectors.toList());
-        UserInfoResponse response = new UserInfoResponse(userDetails.getId(), userDetails.getUsername(), jwtToken, roles);
+        UserInfoResponse response = new UserInfoResponse(userDetails.getId(), jwtToken, userDetails.getUsername(), roles);
         return ResponseEntity.ok(response);
     }
 
@@ -89,19 +89,19 @@ public class AuthenticationService {
 
     // Assign different roles to user accourding to roles mentioned in the Set<RoleEntity>
     public void assignRoles(Set<RoleEntity> roles, RoleService roleService, Set<String> strRoles){
-        if(strRoles.isEmpty()){
-            RoleEntity userRole = roleService.findByRoleName(ApplicationRole.ROLE_USER);
+        if(strRoles == null){
+            RoleEntity userRole = roleService.findByName(ApplicationRole.ROLE_USER);
             roles.add(userRole);
         }  
         else{
             strRoles.forEach(role->{
                 switch(role){
                     case "admin" -> {
-                        RoleEntity adminRole = roleService.findByRoleName(ApplicationRole.ROLE_ADMIN);
+                        RoleEntity adminRole = roleService.findByName(ApplicationRole.ROLE_ADMIN);
                         roles.add(adminRole);
                     }
                     default -> {
-                        RoleEntity userRole = roleService.findByRoleName(ApplicationRole.ROLE_USER);
+                        RoleEntity userRole = roleService.findByName(ApplicationRole.ROLE_USER);
                         roles.add(userRole);
                     }
                 }

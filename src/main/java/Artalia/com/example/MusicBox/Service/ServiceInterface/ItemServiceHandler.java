@@ -8,7 +8,7 @@ import java.util.List;
 import org.springframework.stereotype.Component;
 
 @Component
-public interface ItemServiceHandler extends ServiceHandler {
+public interface ItemServiceHandler extends UserBasedSeviceHandler {
     public List<? extends ResponseHandler> findByUsername(String userName);
 
     public List<? extends ResponseHandler> findByItemName(String itemname);
