@@ -1,90 +1,89 @@
 package com.example.Artalia.Service;
 
-import java.io.File;
-import java.io.IOException;
-import java.security.GeneralSecurityException;
-import java.util.List;
-
 import org.springframework.stereotype.Service;
-
-import com.example.Artalia.Data.UserEntity;
-import com.example.Artalia.GoogleDrive.DriveService;
-import com.example.Artalia.Mapper.UserMapper;
 import com.example.Artalia.Model.UserDto;
 import com.example.Artalia.Model.UserResponseDto;
 import com.example.Artalia.Repository.UserRepository;
 
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
+
 
 @Service
 public class UserService {
-    private final UserMapper userMapper;
     private final UserRepository userRepository;
 
-    public UserService(UserMapper userMapper, UserRepository userRepository){
-        this.userMapper = userMapper;
+    public UserService(UserRepository userRepository){
         this.userRepository = userRepository;
     }
 
-    
-    public UserResponseDto post(UserEntity userEntity){
-        userRepository.save(userEntity);
-        return userMapper.toDto(userEntity);
-    }
-
-    public UserResponseDto post(UserDto userDto){
-        UserEntity userEntity = userMapper.toEntity(userDto);
-        userRepository.save(userEntity);
-        return userMapper.toDto(userEntity);
+    public Mono<UserResponseDto> post(UserDto userDto){
+        return Mono.just(userDto)
+                .map(UserDto::dtoToEntity)
+                .flatMap(userEntity -> userRepository.save(userEntity))
+                .map(UserResponseDto::entityToDto)
+                .doOnError(throwable -> new Throwable(throwable.getMessage()))
+                .doOnSuccess(songResponseDto -> new String("Success"));
     }
     
-    public UserResponseDto findById(int id){
-        return userMapper.toDto(userRepository.findById(id).orElse(null));
+    public Mono<UserResponseDto> findById(int id){
+        return userRepository.findById(id)
+            .map(UserResponseDto::entityToDto)
+            .switchIfEmpty(Mono.error(new Throwable("No item with email found")));
     }
     
-    public UserResponseDto findByUsername(String username){
-        return userMapper.toDto(userRepository.findByUserName(username));
+    public Mono<UserResponseDto> findByUsername(String username){
+        return userRepository.findByUsername(username)
+            .map(UserResponseDto::entityToDto)
+            .switchIfEmpty(Mono.error(new Throwable("No item with email found")));
     }
     
-    public UserResponseDto findByEmail(String email){
-        return userMapper.toDto(userRepository.findByEmail(email));
+    public Mono<UserResponseDto> findByEmail(String email){
+        return userRepository.findByEmail(email)
+            .map(UserResponseDto::entityToDto)
+            .switchIfEmpty(Mono.error(new Throwable("No item with email found")));
     }
     
-    public UserResponseDto findByUsernameOrEmail(String userName, String email){
-        return userMapper.toDto(userRepository.findByUserNameOrEmail(userName, email));
+    public Mono<UserResponseDto> findByUsernameOrEmail(String userName, String email){
+        return userRepository.findByUsernameOrEmail(userName, email)
+            .map(UserResponseDto::entityToDto)
+            .switchIfEmpty(Mono.error(new Throwable("No item with username or email found")));
     }
     
-    public List<UserResponseDto> getAll(){
-        return userMapper.toDto(userRepository.findAll());
+    public Flux<UserResponseDto> getAll(){
+        return userRepository.findAll()
+            .map(UserResponseDto::entityToDto)
+            .switchIfEmpty(Mono.error(new Throwable("No item found")));
     }
     
     public void deleteById(int id){
         userRepository.deleteById(id);
     }
     
-    public Boolean existsByUsername(String userName){
-        return userRepository.existsByUserName(userName);
+    public Mono<Boolean> existsByUsername(String userName){
+        return userRepository.existsByUsername(userName);
     }
     
-    public Boolean existsByEmail(String email){
+    public Mono<Boolean> existsByEmail(String email){
         return userRepository.existsByEmail(email);
     }
 
-    public UserResponseDto updateImageById(int id, File image) throws IOException, GeneralSecurityException{
-        UserEntity userEntity = userRepository.findById(id).orElse(null);
-        DriveService service = new DriveService();
-        String imageID = service.uploadImageToFolder("user", image, userEntity.getUserName());
-        String imageURL = service.getWebViewLink(imageID);
-        userEntity.setImageID(imageID);
-        userEntity.setImageURL(imageURL);
-        userRepository.save(userEntity);
-        return userMapper.toDto(userEntity);
-    }
+    // public UserResponseDto updateImageById(int id, File image) throws IOException, GeneralSecurityException{
+    //     UserEntity userEntity = userRepository.findById(id).orElse(null);
+    //     DriveService service = new DriveService();
+    //     String imageID = service.uploadImageToFolder("user", image, userEntity.getUserName());
+    //     String imageURL = service.getWebViewLink(imageID);
+    //     userEntity.setImageID(imageID);
+    //     userEntity.setImageURL(imageURL);
+    //     userRepository.save(userEntity);
+    //     return userMapper.toDto(userEntity);
+    // }
     
-    public byte[] getImageById(int id) throws IOException, GeneralSecurityException{
-        DriveService service = new DriveService();
-        UserResponseDto userResponseDto = (UserResponseDto) findById(id);
-        return service.downloadFromFolder(userResponseDto.getImageID());
-    }
+    // public byte[] getImageById(int id) throws IOException, GeneralSecurityException{
+    //     DriveService service = new DriveService();
+    //     UserResponseDto userResponseDto = (UserResponseDto) findById(id);
+    //     return service.downloadFromFolder(userResponseDto.getImageID());
+    // }
     
     public UserRepository getRepo(){
         return userRepository;

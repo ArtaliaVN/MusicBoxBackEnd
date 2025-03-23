@@ -1,14 +1,15 @@
 package com.example.Artalia.Repository;
-import java.util.List;
-import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.repository.reactive.ReactiveCrudRepository;
 import org.springframework.stereotype.Repository;
 
 import com.example.Artalia.Data.SongEntity;
 
+import reactor.core.publisher.Flux;
+
 @Repository
-public interface SongRepository extends JpaRepository<SongEntity, Integer> {
-    List<SongEntity> findBySongName(String songName);
-    List<SongEntity> findByArtistName(String artistName);
-    List<SongEntity> findByUserId(int userId);
+public interface SongRepository extends ReactiveCrudRepository<SongEntity, Integer> {
+    Flux<SongEntity> findBySongname(String songname);
+    Flux<SongEntity> findByArtistname(String artistname);
+    Flux<SongEntity> findByUserid(int userid);
 }
  

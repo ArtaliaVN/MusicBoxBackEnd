@@ -1,19 +1,21 @@
 package com.example.Artalia.Repository;
 
-import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.repository.reactive.ReactiveCrudRepository;
 import org.springframework.stereotype.Repository;
 
 import com.example.Artalia.Data.UserEntity;
 
+import reactor.core.publisher.Mono;
+
 @Repository
-public interface UserRepository extends JpaRepository<UserEntity, Integer>{
-    UserEntity findByUserName(String userName);
+public interface UserRepository extends ReactiveCrudRepository<UserEntity, Integer>{
+    Mono<UserEntity> findByUsername(String userName);
 
-    UserEntity findByEmail(String email);
+    Mono<UserEntity> findByEmail(String email);
 
-    UserEntity findByUserNameOrEmail(String userName, String email);
+    Mono<UserEntity> findByUsernameOrEmail(String userName, String email);
 
-    Boolean existsByUserName(String userName);
+    Mono<Boolean> existsByUsername(String userName);
     
-    Boolean existsByEmail(String email);
+    Mono<Boolean> existsByEmail(String email);
 }

@@ -3,93 +3,104 @@ package com.example.Artalia.Service;
 import java.io.File;
 import java.io.IOException;
 import java.security.GeneralSecurityException;
-import java.util.List;
-
 import org.springframework.stereotype.Service;
-
-import com.example.Artalia.Data.SongEntity;
 import com.example.Artalia.GoogleDrive.DriveService;
-import com.example.Artalia.Mapper.SongMapper;
 import com.example.Artalia.Model.SongDto;
 import com.example.Artalia.Model.SongResponseDto;
 import com.example.Artalia.Repository.SongRepository;
 
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
+
 @Service
 public class SongService {
     private final SongRepository songRepository;
-    private final SongMapper songMapper;
 
-    public SongService(SongRepository songRepository, SongMapper songMapper){
+    public SongService(SongRepository songRepository){
         this.songRepository = songRepository;
-        this.songMapper = songMapper;
     }
 
-    public SongResponseDto post(SongDto songDto){
-        SongEntity songEntity = songMapper.toEntity(songDto);
-        songRepository.save((SongEntity) songEntity); 
-        SongResponseDto songResponseDto = songMapper.toDto(songEntity);
-        return songResponseDto;
+    public Mono<SongResponseDto> post(SongDto songDto){
+        return Mono.just(songDto)
+                .map(SongDto::dtoToEntity)
+                .flatMap(songEntity -> songRepository.save(songEntity))
+                .map(SongResponseDto::entityToDto)
+                .doOnError(throwable -> new Throwable(throwable.getMessage()))
+                .doOnSuccess(songResponseDto -> new String("Success"));
     }
     
-    public SongResponseDto findById(int id){
-        return songMapper.toDto(songRepository.findById(id).orElse(null));
+    public Mono<SongResponseDto> findById(int id){
+        return songRepository.findById(id)
+                .map(SongResponseDto::entityToDto)
+                .switchIfEmpty(Mono.error(new Throwable("Song item with this id was not found")));
     }
     
-    public List<SongResponseDto> findByItemName(String songName){
-        return songMapper.toDto(songRepository.findBySongName(songName));
+    public Flux<SongResponseDto> findByItemName(String songName){
+        return songRepository.findBySongname(songName)
+                .map(SongResponseDto::entityToDto)
+                .switchIfEmpty(Mono.error(new Throwable("Song item with this song name was not found")));
     }
 
-    public List<SongResponseDto> findByUsername(String userName){
-        return songMapper.toDto(songRepository.findByArtistName(userName));
+    public Flux<SongResponseDto> findByUsername(String userName){
+        return songRepository.findByArtistname(userName)
+                .map(SongResponseDto::entityToDto)
+                .switchIfEmpty(Mono.error(new Throwable("Song item with this artist name was not found")));
     }
 
-    public List<SongResponseDto> findByUserId(int userId){
-        return songMapper.toDto(songRepository.findByUserId(userId));
+    public Flux<SongResponseDto> findByUserId(int userId){
+        return songRepository.findByUserid(userId)
+                .map(SongResponseDto::entityToDto)
+                .switchIfEmpty(Mono.error(new Throwable("Song item with this artist id was not found")));
     }
 
-    public List<SongResponseDto> getAll(){
-        return songMapper.toDto(songRepository.findAll());
+    public Flux<SongResponseDto> getAll(){
+        return songRepository.findAll()
+                .map(SongResponseDto::entityToDto)
+                .switchIfEmpty(Mono.error(new Throwable("No item was found")));
     }
     
     public void deleteById(int id){
         songRepository.deleteById(id);
     }
 
-    public SongResponseDto updateImageById(int id, File image) throws IOException, GeneralSecurityException{
-        SongEntity songEntity = songRepository.findById(id).orElse(null);
-        DriveService service = new DriveService();
-        String imageID = service.uploadImageToFolder("song", image, songEntity.getSongName());
-        String imageURL = service.getWebViewLink(imageID);
-        songEntity.setImageID(imageID);
-        songEntity.setImageURL(imageURL);
-        songRepository.save(songEntity);
-        return songMapper.toDto(songEntity);
+    public Mono<SongResponseDto> updateImageById(int id, File image) {
+        return songRepository.findById(id)
+                .switchIfEmpty(Mono.error(new Throwable("Song item with this id was not found")))
+                .flatMap(songEntity ->{
+                    DriveService service = new DriveService();
+                    String imageID;
+                    try {
+                        imageID = service.uploadImageToFolder("song", image, songEntity.getSongname());
+                        String imageURL = service.getWebViewLink(imageID);
+                        songEntity.setImageid(imageID);
+                        songEntity.setImageurl(imageURL);
+                    } catch (IOException | GeneralSecurityException e) {
+                        // TODO Auto-generated catch block
+                        e.printStackTrace();
+                    }
+                    return songRepository.save(songEntity);
+                })
+                .map(SongResponseDto::entityToDto);
     }
     
-    public SongResponseDto updateAudioById(int id, File audio) throws IOException, GeneralSecurityException{
-        SongEntity songEntity = songRepository.findById(id).orElse(null);
-        DriveService service = new DriveService();
-        String audioID = service.uploadAudioToFolder("song", audio, songEntity.getSongName());
-        String audioURL = service.getWebViewLink(audioID);
-        songEntity.setAudioID(audioID);
-        songEntity.setAudioURL(audioURL);
-        songRepository.save(songEntity);
-        return songMapper.toDto(songEntity);
+    public Mono<SongResponseDto> updateAudioById(int id, File audio) {
+        return songRepository.findById(id)
+                .switchIfEmpty(Mono.error(new Throwable("Song item with this id was not found")))
+                .flatMap(songEntity ->{
+                    DriveService service = new DriveService();
+                    String audioID;
+                    try {
+                        audioID = service.uploadAudioToFolder("song", audio, songEntity.getSongname());
+                        String audioURL = service.getWebViewLink(audioID);
+                        songEntity.setAudioid(audioID);
+                        songEntity.setAudiourl(audioURL);
+                    } catch (IOException | GeneralSecurityException e) {
+                        e.printStackTrace();
+                    }
+                    return songRepository.save(songEntity);
+                })
+                .map(SongResponseDto::entityToDto);
     }
-    
-    public byte[] getImageById(int id) throws IOException, GeneralSecurityException{
-        DriveService service = new DriveService();
-        SongResponseDto songResponseDto = findById(id);
-        return service.downloadFromFolder(songResponseDto.getImageID());
-    }
-
-    
-    public byte[] getAudioById(int id) throws IOException, GeneralSecurityException{
-        DriveService service = new DriveService();
-        SongResponseDto songResponseDto = findById(id);
-        return service.downloadFromFolder(songResponseDto.getAudioID());
-    }
-
     
     public SongRepository getRepo() {
         return songRepository;

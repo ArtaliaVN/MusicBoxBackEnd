@@ -3,7 +3,6 @@ package com.example.Artalia.Controller;
 import java.io.File;
 import java.io.IOException;
 import java.security.GeneralSecurityException;
-import java.util.List;
 
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,9 +14,13 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+
 import com.example.Artalia.Model.SongDto;
 import com.example.Artalia.Model.SongResponseDto;
 import com.example.Artalia.Service.SongService;
+
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 
 
 @RestController
@@ -29,38 +32,28 @@ public class SongDatabaseController {
     }
 
     @PostMapping("/song")
-    public SongResponseDto post(@RequestBody SongDto songDto){
+    public Mono<SongResponseDto> post(@RequestBody SongDto songDto){
         return songService.post(songDto);
     }
 
     @GetMapping("/song/id={id}/account")
-    public SongResponseDto findById(@PathVariable("id") int id){
+    public Mono<SongResponseDto> findById(@PathVariable("id") int id){
         return songService.findById(id);
     }
 
     @GetMapping("/song/songName={songName}/items")
-    public List<? extends SongResponseDto> findByName(@PathVariable("songName") String songName){
+    public Flux<SongResponseDto> findByName(@PathVariable("songName") String songName){
         return songService.findByItemName(songName);
     }
 
     @GetMapping("/song/artistName={artistName}/items")
-    public List<? extends SongResponseDto> findByUsername(@PathVariable("artistName") String artistName){
+    public Flux<SongResponseDto> findByUsername(@PathVariable("artistName") String artistName){
         return songService.findByUsername(artistName);
     }
 
     @GetMapping("/song/items")
-    public List<? extends SongResponseDto> getAll(){
+    public Flux<SongResponseDto> getAll(){
         return songService.getAll();
-    }
-
-    @GetMapping("/song/image/id={id}/item")
-    public byte[] getImageBySongId(@PathVariable("id") int id) throws IOException, GeneralSecurityException{
-        return songService.getImageById(id);
-    }
-
-    @GetMapping("/song/audio/id={id}/item")
-    public byte[] getSongAudioById(@PathVariable("id") int id) throws IOException, GeneralSecurityException{
-        return songService.getAudioById(id);
     }
 
     @DeleteMapping("/song/id={id}/delete")

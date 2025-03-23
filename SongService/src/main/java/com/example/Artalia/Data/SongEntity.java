@@ -1,42 +1,30 @@
 package com.example.Artalia.Data;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.relational.core.mapping.Table;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@Entity
-@Table(name = "SongEntity")
+@Table(name = "song_entity")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 public class SongEntity{
     @Id
-    @GeneratedValue(strategy=GenerationType.IDENTITY)
     private int id;
 
-    @Column(length = 25)
-    private String songName;
-    
-    @Column(length = 25)
-    private String artistName;
+    private String songname;
 
-    @Column 
-    private String imageURL = "null";
+    private String artistname;
 
-    @Column 
-    private String imageID = "null";
+    private String imageurl = "null";
 
-    @Column
-    private String audioURL = "null";
+    private String imageid = "null";
 
-    @Column 
-    private String audioID = "null";
+    private String audiourl = "null";
 
-    @Column
-    private int userId;
+    private String audioid = "null";
+
+    private int userid;
 }
