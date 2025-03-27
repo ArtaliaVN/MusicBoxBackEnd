@@ -5,6 +5,7 @@ import org.springframework.stereotype.Repository;
 
 import com.example.Artalia.Data.UserEntity;
 
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 @Repository
@@ -13,7 +14,7 @@ public interface UserRepository extends ReactiveCrudRepository<UserEntity, Integ
 
     Mono<UserEntity> findByEmail(String email);
 
-    Mono<UserEntity> findByUsernameOrEmail(String userName, String email);
+    Flux<UserEntity> findByUsernameOrEmail(String userName, String email);
 
     Mono<Boolean> existsByUsername(String userName);
     

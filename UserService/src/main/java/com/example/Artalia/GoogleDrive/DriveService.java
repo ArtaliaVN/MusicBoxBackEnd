@@ -97,10 +97,10 @@ public class DriveService {
         }
     }
 
-    public byte[] downloadFromFolder(String imageID) throws IOException, GeneralSecurityException{
+    public byte[] downloadFromFolder(String ID) throws IOException, GeneralSecurityException{
         try {
             Drive service = createDriveService();
-            BufferedInputStream inputStream = new BufferedInputStream(service.files().get(imageID).setFields("*").executeMediaAsInputStream());
+            BufferedInputStream inputStream = new BufferedInputStream(service.files().get(ID).setFields("*").executeMediaAsInputStream());
             byte[] result = inputStream.readAllBytes();
             return result;
         } catch (GoogleJsonResponseException e) {

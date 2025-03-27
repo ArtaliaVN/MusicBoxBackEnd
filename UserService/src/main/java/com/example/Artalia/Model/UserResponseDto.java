@@ -1,7 +1,4 @@
 package com.example.Artalia.Model;
-
-import java.util.Set;
-
 import com.example.Artalia.Data.UserEntity;
 
 import lombok.AllArgsConstructor;

@@ -1,5 +1,6 @@
 package com.example.Artalia.Controller;
 
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -43,8 +44,8 @@ public class UserDatabaseController {
         return userService.findByEmail(email);
     }
 
-    @GetMapping("/user/username={username}_email={email}/account")
-    public Mono<UserResponseDto> getByUserNameOrEmail(@PathVariable("username") String username, @PathVariable("email") String email){
+    @GetMapping("/user/username={username}_email={email}/accounts")
+    public Flux<UserResponseDto> getByUserNameOrEmail(@PathVariable("username") String username, @PathVariable("email") String email){
         return userService.findByUsernameOrEmail(username, email);
     }
 

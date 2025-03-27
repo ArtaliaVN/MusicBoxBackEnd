@@ -1,10 +1,6 @@
 package com.example.Artalia.Service;
 
-import java.io.File;
-import java.io.IOException;
-import java.security.GeneralSecurityException;
 import org.springframework.stereotype.Service;
-import com.example.Artalia.GoogleDrive.DriveService;
 import com.example.Artalia.Model.SongDto;
 import com.example.Artalia.Model.SongResponseDto;
 import com.example.Artalia.Repository.SongRepository;
@@ -62,47 +58,58 @@ public class SongService {
     public void deleteById(int id){
         songRepository.deleteById(id);
     }
-
-    public Mono<SongResponseDto> updateImageById(int id, File image) {
-        return songRepository.findById(id)
-                .switchIfEmpty(Mono.error(new Throwable("Song item with this id was not found")))
-                .flatMap(songEntity ->{
-                    DriveService service = new DriveService();
-                    String imageID;
-                    try {
-                        imageID = service.uploadImageToFolder("song", image, songEntity.getSongname());
-                        String imageURL = service.getWebViewLink(imageID);
-                        songEntity.setImageid(imageID);
-                        songEntity.setImageurl(imageURL);
-                    } catch (IOException | GeneralSecurityException e) {
-                        // TODO Auto-generated catch block
-                        e.printStackTrace();
-                    }
-                    return songRepository.save(songEntity);
-                })
-                .map(SongResponseDto::entityToDto);
-    }
-    
-    public Mono<SongResponseDto> updateAudioById(int id, File audio) {
-        return songRepository.findById(id)
-                .switchIfEmpty(Mono.error(new Throwable("Song item with this id was not found")))
-                .flatMap(songEntity ->{
-                    DriveService service = new DriveService();
-                    String audioID;
-                    try {
-                        audioID = service.uploadAudioToFolder("song", audio, songEntity.getSongname());
-                        String audioURL = service.getWebViewLink(audioID);
-                        songEntity.setAudioid(audioID);
-                        songEntity.setAudiourl(audioURL);
-                    } catch (IOException | GeneralSecurityException e) {
-                        e.printStackTrace();
-                    }
-                    return songRepository.save(songEntity);
-                })
-                .map(SongResponseDto::entityToDto);
-    }
     
     public SongRepository getRepo() {
         return songRepository;
     }
+
+    // public Mono<SongResponseDto> updateImageById(int id, File image) {
+    //     return songRepository.findById(id)
+    //             .switchIfEmpty(Mono.error(new Throwable("Song item with this id was not found")))
+    //             .flatMap(songEntity ->{
+    //                 DriveService service = new DriveService();
+    //                 String imageID;
+    //                 try {
+    //                     imageID = service.uploadImageToFolder("song", image, songEntity.getSongname());
+    //                     String imageURL = service.getWebViewLink(imageID);
+    //                     songEntity.setImageid(imageID);
+    //                     songEntity.setImageurl(imageURL);
+    //                 } catch (IOException | GeneralSecurityException e) {
+    //                     e.printStackTrace();
+    //                 }
+    //                 return songRepository.save(songEntity);
+    //             })
+    //             .map(SongResponseDto::entityToDto);
+    // }
+    
+    // public Mono<SongResponseDto> updateAudioById(int id, File audio) {
+    //     return songRepository.findById(id)
+    //             .switchIfEmpty(Mono.error(new Throwable("Song item with this id was not found")))
+    //             .flatMap(songEntity ->{
+    //                 DriveService service = new DriveService();
+    //                 String audioID;
+    //                 try {
+    //                     audioID = service.uploadAudioToFolder("song", audio, songEntity.getSongname());
+    //                     String audioURL = service.getWebViewLink(audioID);
+    //                     songEntity.setAudioid(audioID);
+    //                     songEntity.setAudiourl(audioURL);
+    //                 } catch (IOException | GeneralSecurityException e) {
+    //                     e.printStackTrace();
+    //                 }
+    //                 return songRepository.save(songEntity);
+    //             })
+    //             .map(SongResponseDto::entityToDto);
+    // }
+    
+    // public Mono<byte[]> getImageById(int id) throws IOException, GeneralSecurityException{
+    //     DriveService service = new DriveService();
+    //     Mono<SongResponseDto> songResponseDto = findById(id);
+    //     return Mono.just(service.downloadFromFolder(songResponseDto.block().getImageID()));
+    // }
+
+    // public Mono<byte[]> getAudioById(int id) throws IOException, GeneralSecurityException{
+    //     DriveService service = new DriveService();
+    //     Mono<SongResponseDto> songResponseDto = findById(id);
+    //     return Mono.just(service.downloadFromFolder(songResponseDto.block().getAudioID()));
+    // }
 }

@@ -1,4 +1,4 @@
-package com.example.Artalia.GoogleDrive;
+package com.example.Artalia.Service;
 
 import java.io.BufferedInputStream;
 import java.io.FileInputStream;
@@ -23,7 +23,7 @@ import com.google.auth.oauth2.GoogleCredentials;
 
 public class DriveService {
     private static final String folderId = "16HZYufjxA-XXG1NMr0Je5uyv8UYCJhxV";
-    private static final String SERVICE_ACOUNT_KEY_PATH = "src\\main\\java\\com\\example\\Artalia\\GoogleDrive\\music-box-project-credentials.json";
+    private static final String SERVICE_ACOUNT_KEY_PATH = "src\\main\\java\\com\\example\\Artalia\\Credentials\\music-box-project-credentials.json";
     private static final JsonFactory JSON_FACTORY = GsonFactory.getDefaultInstance();
 
     public String uploadImageToFolder(String prefix, java.io.File file, String name) throws IOException, GeneralSecurityException{

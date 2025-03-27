@@ -44,7 +44,7 @@ public class UserService {
             .switchIfEmpty(Mono.error(new Throwable("No item with email found")));
     }
     
-    public Mono<UserResponseDto> findByUsernameOrEmail(String userName, String email){
+    public Flux<UserResponseDto> findByUsernameOrEmail(String userName, String email){
         return userRepository.findByUsernameOrEmail(userName, email)
             .map(UserResponseDto::entityToDto)
             .switchIfEmpty(Mono.error(new Throwable("No item with username or email found")));
