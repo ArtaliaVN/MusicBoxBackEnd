@@ -1,6 +1,15 @@
 package com.example.Artalia.Service;
 
+import java.io.File;
+import java.io.IOException;
+import java.security.GeneralSecurityException;
+import java.time.Duration;
+import java.time.temporal.ChronoUnit;
+
 import org.springframework.stereotype.Service;
+
+import com.example.Artalia.Data.UserEntity;
+import com.example.Artalia.GoogleDrive.DriveService;
 import com.example.Artalia.Model.UserDto;
 import com.example.Artalia.Model.UserResponseDto;
 import com.example.Artalia.Repository.UserRepository;
@@ -68,21 +77,21 @@ public class UserService {
         return userRepository.existsByEmail(email);
     }
 
-    // public UserResponseDto updateImageById(int id, File image) throws IOException, GeneralSecurityException{
-    //     UserEntity userEntity = userRepository.findById(id).orElse(null);
+    // public Mono<String> updateImageById(int id, File image) throws IOException, GeneralSecurityException{
+    //     UserEntity userEntity = userRepository.findById(id).block(Duration.of(1000, ChronoUnit.MILLIS));
     //     DriveService service = new DriveService();
-    //     String imageID = service.uploadImageToFolder("user", image, userEntity.getUserName());
+    //     String imageID = service.uploadImageToFolder("user", image, userEntity.getUsername());
     //     String imageURL = service.getWebViewLink(imageID);
-    //     userEntity.setImageID(imageID);
-    //     userEntity.setImageURL(imageURL);
+    //     userEntity.setImageid(imageID);
+    //     userEntity.setImageurl(imageURL);
     //     userRepository.save(userEntity);
-    //     return userMapper.toDto(userEntity);
+    //     return Mono.just("Success");
     // }
     
-    // public byte[] getImageById(int id) throws IOException, GeneralSecurityException{
+    // public Mono<byte[]> getImageById(int id) throws IOException, GeneralSecurityException{
     //     DriveService service = new DriveService();
-    //     UserResponseDto userResponseDto = (UserResponseDto) findById(id);
-    //     return service.downloadFromFolder(userResponseDto.getImageID());
+    //     UserEntity userResponseDto = userRepository.findById(id).block(Duration.of(1000, ChronoUnit.MILLIS));
+    //     return Mono.just(service.downloadFromFolder(userResponseDto.getImageid()));
     // }
     
     public UserRepository getRepo(){

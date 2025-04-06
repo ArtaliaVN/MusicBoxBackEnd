@@ -9,6 +9,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
+import com.example.Artalia.Model.UserEntity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import lombok.AllArgsConstructor;
@@ -47,7 +48,7 @@ public class CustomUserDetails implements UserDetails {
         
         return new CustomUserDetails(
             userEntity.getId(),
-            userEntity.getUserName(),
+            userEntity.getUsername(),
             userEntity.getEmail(),
             userEntity.getPassword(),
             authorities

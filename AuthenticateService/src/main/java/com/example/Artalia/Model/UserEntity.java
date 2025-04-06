@@ -1,7 +1,10 @@
-package com.example.Artalia.Data;
+package com.example.Artalia.Model;
+
+import java.util.Set;
 
 import org.springframework.data.annotation.Id;
-import org.springframework.data.relational.core.mapping.Table;
+
+import com.example.Artalia.Data.RoleEntity;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
@@ -10,10 +13,9 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@Table(name = "user_entity")
 @Data
-@NoArgsConstructor
 @AllArgsConstructor
+@NoArgsConstructor
 @Builder
 public class UserEntity{
 
@@ -41,4 +43,6 @@ public class UserEntity{
 
     @Builder.Default
     private String imageid = "14YmUPBwmEkuvUee00levMbocNz-XvkWs";
+
+    private Set<RoleEntity> roles;
 }

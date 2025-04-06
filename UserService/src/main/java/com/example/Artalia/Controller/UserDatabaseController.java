@@ -1,6 +1,8 @@
 package com.example.Artalia.Controller;
 
-import org.springframework.transaction.annotation.Transactional;
+import java.time.Duration;
+import java.time.temporal.ChronoUnit;
+
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -8,6 +10,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.Artalia.Data.UserEntity;
+import com.example.Artalia.Kafka.UserProducer;
 import com.example.Artalia.Model.UserDto;
 import com.example.Artalia.Model.UserResponseDto;
 import com.example.Artalia.Service.UserService;
@@ -20,7 +24,10 @@ import reactor.core.publisher.Mono;
 public class UserDatabaseController {
     private final UserService userService;
 
-    public UserDatabaseController(UserService userService){
+    private final UserProducer userProducer;
+
+    public UserDatabaseController(UserService userService, UserProducer userProducer){
+        this.userProducer = userProducer;
         this.userService = userService;
     }
 
@@ -55,23 +62,23 @@ public class UserDatabaseController {
     }
 
     // @GetMapping("/user/image/id={id}/account")
-    // public byte[] getImageByUserId(@PathVariable int id) throws IOException, GeneralSecurityException{
+    // public Mono<byte[]> getImageByUserId(@PathVariable int id) throws IOException, GeneralSecurityException{
     //     return userService.getImageById(id);
     // }
 
     @DeleteMapping("/user/id={id}/delete")
     public void deleteById(@PathVariable("id") int id){
+        UserEntity userEvent = userService.getRepo().findById(id).block(Duration.of(1000, ChronoUnit.MILLIS));
         userService.deleteById(id);
     }
 
     // @PatchMapping("/user/id={id}/account/image/update")
-    // public String updateImageById(@PathVariable("id") int id,@RequestParam("image") MultipartFile image) throws IOException, GeneralSecurityException{
+    // public Mono<String> updateImageById(@PathVariable("id") int id,@RequestPart("image") MultipartFile image) throws IOException, GeneralSecurityException{
     //     if(image.isEmpty()){
-    //         return "No file detected";
+    //         return Mono.just("No file detected");
     //     }
     //     File tempFile = File.createTempFile("temp", null);
     //     image.transferTo(tempFile);
-    //     userService.updateImageById(id, tempFile);
-    //     return "Successful";
+    //     return userService.updateImageById(id, tempFile);
     // }
 }

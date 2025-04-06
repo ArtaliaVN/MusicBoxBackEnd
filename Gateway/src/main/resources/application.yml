@@ -1,0 +1,13 @@
+spring:  
+  cloud:
+    gateway:
+      routes:
+      - id: song_service
+        uri: http://localhost:9211
+        predicates:
+        - Path=/song/**
+
+      - id: user_service
+        uri: http://localhost:9212
+        predicates:
+        - Path=/user/**

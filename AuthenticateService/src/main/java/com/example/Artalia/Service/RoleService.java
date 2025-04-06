@@ -16,7 +16,7 @@ public class RoleService{
     }
     
     public RoleEntity findByName(ApplicationRole roleName){
-        return roleRepository.findByRoleName(roleName);
+        return roleRepository.findByRoleName(roleName).orElseThrow(() -> new RuntimeException("Error: Role not found"));
     }
     
     public MessageResponse post(RoleEntity role){
