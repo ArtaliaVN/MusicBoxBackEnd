@@ -7,6 +7,8 @@ import java.security.GeneralSecurityException;
 import java.util.Collections;
 
 import org.apache.commons.io.FilenameUtils;
+import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.google.api.client.googleapis.javanet.GoogleNetHttpTransport;
 import com.google.api.client.googleapis.json.GoogleJsonResponseException;
@@ -21,14 +23,20 @@ import com.google.api.services.drive.model.File;
 import com.google.auth.http.HttpCredentialsAdapter;
 import com.google.auth.oauth2.GoogleCredentials;
 
+@Service
 public class DriveService {
     private static final String folderId = "16HZYufjxA-XXG1NMr0Je5uyv8UYCJhxV";
-    private static final String SERVICE_ACOUNT_KEY_PATH = "src\\main\\java\\com\\example\\Artalia\\Credentials\\music-box-project-credentials.json";
+    private static final String SERVICE_ACOUNT_KEY_PATH = "src\\main\\java\\com\\example\\Artalia\\Credentials\\music-box-project-449604-02ef9b6ce740.json";
     private static final JsonFactory JSON_FACTORY = GsonFactory.getDefaultInstance();
 
-    public String uploadImageToFolder(String prefix, java.io.File file, String name) throws IOException, GeneralSecurityException{
+    public String uploadImageToFolder(String prefix, String fileType, MultipartFile uploadFile, String name) throws IOException, GeneralSecurityException{
+        if(uploadFile.isEmpty())
+            return "No file detected";
+        java.io.File file = java.io.File.createTempFile("temp", null);
+        uploadFile.transferTo(file);
+        
         File metaData = new File();
-        metaData.setName(prefix+"_image_"+name);
+        metaData.setName(prefix+"_"+ fileType +"_"+name);
         metaData.setParents(Collections.singletonList(folderId));
         FileContent mediaContent = new FileContent("image/" + FilenameUtils.getExtension(file.getName()), file);
 
@@ -46,19 +54,25 @@ public class DriveService {
         }
     }
 
-    public String uploadAudioToFolder(String prefix, java.io.File file, String name) throws IOException, GeneralSecurityException{
+    public String uploadAudioToFolder(String prefix, String fileType, MultipartFile uploadFile, String name) throws IOException, GeneralSecurityException{
+        if(uploadFile.isEmpty())
+            return "No file detected";
+        java.io.File file = java.io.File.createTempFile("temp", null);
+        uploadFile.transferTo(file);
+        
         File metaData = new File();
-        metaData.setName(prefix+"_audio_"+name);
+        metaData.setName(prefix+"_"+ fileType +"_"+name);
         metaData.setParents(Collections.singletonList(folderId));
         FileContent mediaContent = new FileContent("audio/mpeg", file);
+
         try {
             Drive service = createDriveService();
             File uploadedFile = service.files().create(metaData, mediaContent)
                 .setFields("id")
                 .execute(); 
-            String audioID = uploadedFile.getId();
+            String imageId = uploadedFile.getId();
             file.delete();
-            return audioID;
+            return imageId;
           } catch (GoogleJsonResponseException e) {
             System.err.println("Unable to upload file: " + e.getDetails());
             throw e;
@@ -111,7 +125,7 @@ public class DriveService {
 
     private Drive createDriveService() throws GeneralSecurityException, IOException {
         GoogleCredentials credentials = GoogleCredentials.fromStream(new FileInputStream(SERVICE_ACOUNT_KEY_PATH))
-        .createScoped(Collections.singleton(DriveScopes.DRIVE));
+            .createScoped(Collections.singleton(DriveScopes.DRIVE));
         HttpRequestInitializer requestInitializer = new HttpCredentialsAdapter(credentials);
         return new Drive.Builder(
             GoogleNetHttpTransport

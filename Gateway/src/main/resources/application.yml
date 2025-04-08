@@ -2,12 +2,17 @@ spring:
   cloud:
     gateway:
       routes:
-      - id: song_service
+      - id: song-service
         uri: http://localhost:9211
         predicates:
         - Path=/song/**
 
-      - id: user_service
+      - id: user-service
         uri: http://localhost:9212
         predicates:
         - Path=/user/**
+      
+      - id: google-drive-service
+        uri: http://localhost:9214
+        predicates:
+        - Path=/media/**

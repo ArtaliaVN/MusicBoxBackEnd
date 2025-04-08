@@ -1,15 +1,12 @@
 package com.example.Artalia.Service;
 
-import java.io.File;
-import java.io.IOException;
-import java.security.GeneralSecurityException;
 import java.time.Duration;
 import java.time.temporal.ChronoUnit;
+import java.util.concurrent.ExecutionException;
 
 import org.springframework.stereotype.Service;
 
 import com.example.Artalia.Data.UserEntity;
-import com.example.Artalia.GoogleDrive.DriveService;
 import com.example.Artalia.Model.UserDto;
 import com.example.Artalia.Model.UserResponseDto;
 import com.example.Artalia.Repository.UserRepository;
@@ -75,6 +72,14 @@ public class UserService {
     
     public Mono<Boolean> existsByEmail(String email){
         return userRepository.existsByEmail(email);
+    }
+
+    public Mono<UserResponseDto> updateImageInfo(UserResponseDto userResponseDto) throws InterruptedException, ExecutionException{
+        UserEntity userEntity = userRepository.findById(userResponseDto.getId()).toFuture().get();
+        userEntity.setImageid(userResponseDto.getImageID());
+        userEntity.setImageurl(userResponseDto.getImageURL());
+        userRepository.save(userEntity);
+        return Mono.just(userResponseDto);
     }
 
     // public Mono<String> updateImageById(int id, File image) throws IOException, GeneralSecurityException{
