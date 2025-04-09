@@ -1,5 +1,7 @@
 package com.example.Artalia.Dto;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -7,12 +9,10 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class UserResponseDto{
+@JsonIgnoreProperties(ignoreUnknown = true)
+public class UserEventDto{
     private int id;
-    private String email;
     private String userName;
-    private String firstName;
-    private String lastName;
     private String imageURL;
     private String imageID;
 }

@@ -4,11 +4,11 @@ import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
-import com.example.Artalia.Dto.UserEventDto;
+import com.example.Artalia.Dto.SongEventDto;
 
-@FeignClient(name = "user-service")
-public interface UserServiceImp {
+@FeignClient(name = "song-service")
+public interface SongServiceImp {
 
-    @GetMapping("/user/{id}/account")
-    public UserEventDto getById(@PathVariable("id") int id);
+    @GetMapping("/song/{id}/item")
+    public SongEventDto getById(@PathVariable("id") int id);
 }

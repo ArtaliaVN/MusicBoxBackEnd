@@ -1,13 +1,12 @@
 package com.example.Artalia.Service;
 
-import java.time.Duration;
-import java.time.temporal.ChronoUnit;
 import java.util.concurrent.ExecutionException;
 
 import org.springframework.stereotype.Service;
 
 import com.example.Artalia.Data.UserEntity;
 import com.example.Artalia.Model.UserDto;
+import com.example.Artalia.Model.UserEventDto;
 import com.example.Artalia.Model.UserResponseDto;
 import com.example.Artalia.Repository.UserRepository;
 
@@ -74,12 +73,18 @@ public class UserService {
         return userRepository.existsByEmail(email);
     }
 
-    public Mono<UserResponseDto> updateImageInfo(UserResponseDto userResponseDto) throws InterruptedException, ExecutionException{
-        UserEntity userEntity = userRepository.findById(userResponseDto.getId()).toFuture().get();
-        userEntity.setImageid(userResponseDto.getImageID());
-        userEntity.setImageurl(userResponseDto.getImageURL());
+    public Mono<String> updateImageInfo(UserEventDto userEventDto) throws InterruptedException, ExecutionException{
+        System.out.print(userEventDto);
+        userRepository.findById(userEventDto.getId())
+            .doOnNext(entity -> updateImageInfoFunc(entity, userEventDto.getImageID(), userEventDto.getImageURL()))
+            .subscribe();
+        return Mono.just("Success");
+    }
+
+    public void updateImageInfoFunc(UserEntity userEntity, String imageid, String imageurl){
+        userEntity.setImageid(imageid);
+        userEntity.setImageurl(imageurl);
         userRepository.save(userEntity);
-        return Mono.just(userResponseDto);
     }
 
     // public Mono<String> updateImageById(int id, File image) throws IOException, GeneralSecurityException{

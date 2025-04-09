@@ -1,10 +1,7 @@
 package com.example.Artalia.Controller;
 
-import java.util.concurrent.ExecutionException;
-
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -54,11 +51,6 @@ public class UserDatabaseController {
     @GetMapping("/user/accounts")
     public Flux<UserResponseDto> getAll(){
         return userService.getAll();
-    }
-
-    @PatchMapping("/user/account/update")
-    public Mono<UserResponseDto> userUpdate(@RequestBody UserResponseDto userResponseDto) throws InterruptedException, ExecutionException{
-        return userService.updateImageInfo(userResponseDto);
     }
 
     @DeleteMapping("/user/id={id}/delete")
