@@ -23,12 +23,12 @@ import org.springframework.stereotype.Service;
 
 import com.example.Artalia.Data.CustomUserDetails;
 import com.example.Artalia.Data.RoleEntity;
-import com.example.Artalia.Kafka.AuthProducer;
+import com.example.Artalia.Data.UserAuthEntity;
+//import com.example.Artalia.Kafka.AuthProducer;
 import com.example.Artalia.Model.ApplicationRole;
 import com.example.Artalia.Model.LoginRequest;
 import com.example.Artalia.Model.MessageResponse;
 import com.example.Artalia.Model.SignUpRequest;
-import com.example.Artalia.Model.UserEntity;
 import com.example.Artalia.Model.UserInfoResponse;
 import com.example.Artalia.Utils.JwtUtils;
 
@@ -46,8 +46,8 @@ public class AuthenticateService {
     @Autowired
     private PasswordEncoder encoder;
 
-    @Autowired
-    private AuthProducer authProducer;
+    // @Autowired
+    // private AuthProducer authProducer;
 
     public ResponseEntity<?> authenticateUser(LoginRequest loginRequest){
         Authentication authentication;
@@ -80,36 +80,34 @@ public class AuthenticateService {
         if(!signUpRequest.getPassword().equals(signUpRequest.getConfirmPassword()))
             return ResponseEntity.badRequest().body(new MessageResponse("Please enter matching passwords"));
 
-        UserEntity userEntity = new UserEntity();
+        UserAuthEntity userEntity = new UserAuthEntity();
         userEntity.setEmail(signUpRequest.getEmail());
         userEntity.setUsername(signUpRequest.getUsername()); 
-        userEntity.setFirstname(signUpRequest.getFirstname());
-        userEntity.setLastname(signUpRequest.getLastname());
         userEntity.setPassword(encoder.encode(signUpRequest.getPassword()));
            
         Set<String> strRoles = signUpRequest.getRoles();
-        Set<RoleEntity> roles = new HashSet<>();
+        Set<String> roles = new HashSet<>();
         if(strRoles == null){
             RoleEntity roleEntity = roleService.findByName(ApplicationRole.ROLE_USER);
-            roles.add(roleEntity);
+            roles.add(roleEntity.toString());
         }
         else{
             strRoles.forEach(role -> {
                 switch(role){
                     case "admin" -> {
                         RoleEntity adminRole = roleService.findByName(ApplicationRole.ROLE_ADMIN);
-                        roles.add(adminRole);
+                        roles.add(adminRole.toString());
                     }
 
                     default -> {
                         RoleEntity userRole = roleService.findByName(ApplicationRole.ROLE_USER);
-                        roles.add(userRole);
+                        roles.add(userRole.toString());
                     }
                 }
             });
         }
             
-        return ResponseEntity.accepted().body(authProducer.sendMessage(userEntity));
+        return ResponseEntity.accepted().body("Success");//.body(authProducer.sendMessage(userEntity));
     }
 
 

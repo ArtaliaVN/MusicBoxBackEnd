@@ -23,7 +23,6 @@ public class UserDto {
         userEntity.setFirstname(userDto.getFirstName());
         userEntity.setLastname(userDto.getLastName());
         userEntity.setUsername(userDto.getUserName());
-        userEntity.setPassword(userDto.getPassword());
         return userEntity;
     }
 }

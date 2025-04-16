@@ -4,10 +4,10 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class ArtaliaApplication {
+public class AuthenthicateServiceApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(ArtaliaApplication.class, args);
+		SpringApplication.run(AuthenthicateServiceApplication.class, args);
 	}
 
 }

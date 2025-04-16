@@ -3,8 +3,8 @@ package com.example.Artalia.Service;
 import java.util.concurrent.ExecutionException;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import com.example.Artalia.Data.UserEntity;
 import com.example.Artalia.Model.UserDto;
 import com.example.Artalia.Model.UserEventDto;
 import com.example.Artalia.Model.UserResponseDto;
@@ -73,36 +73,15 @@ public class UserService {
         return userRepository.existsByEmail(email);
     }
 
-    public Mono<String> updateImageInfo(UserEventDto userEventDto) throws InterruptedException, ExecutionException{
-        System.out.print(userEventDto);
-        userRepository.findById(userEventDto.getId())
-            .doOnNext(entity -> updateImageInfoFunc(entity, userEventDto.getImageID(), userEventDto.getImageURL()))
-            .subscribe();
-        return Mono.just("Success");
+    public Mono<UserResponseDto> updateImageInfo(UserEventDto userEventDto) throws InterruptedException, ExecutionException{
+        return userRepository.findById(userEventDto.getId())
+            .doOnNext(entity -> {
+                entity.setImageid(userEventDto.getImageID());
+                entity.setImageurl(userEventDto.getImageURL());
+            })
+            .flatMap(userRepository::save)
+            .map(UserResponseDto::entityToDto);
     }
-
-    public void updateImageInfoFunc(UserEntity userEntity, String imageid, String imageurl){
-        userEntity.setImageid(imageid);
-        userEntity.setImageurl(imageurl);
-        userRepository.save(userEntity);
-    }
-
-    // public Mono<String> updateImageById(int id, File image) throws IOException, GeneralSecurityException{
-    //     UserEntity userEntity = userRepository.findById(id).block(Duration.of(1000, ChronoUnit.MILLIS));
-    //     DriveService service = new DriveService();
-    //     String imageID = service.uploadImageToFolder("user", image, userEntity.getUsername());
-    //     String imageURL = service.getWebViewLink(imageID);
-    //     userEntity.setImageid(imageID);
-    //     userEntity.setImageurl(imageURL);
-    //     userRepository.save(userEntity);
-    //     return Mono.just("Success");
-    // }
-    
-    // public Mono<byte[]> getImageById(int id) throws IOException, GeneralSecurityException{
-    //     DriveService service = new DriveService();
-    //     UserEntity userResponseDto = userRepository.findById(id).block(Duration.of(1000, ChronoUnit.MILLIS));
-    //     return Mono.just(service.downloadFromFolder(userResponseDto.getImageid()));
-    // }
     
     public UserRepository getRepo(){
         return userRepository;

@@ -1,12 +1,16 @@
 package com.example.Artalia.Controller;
 
+import java.util.concurrent.ExecutionException;
+
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.Artalia.Model.UserEventDto;
 import com.example.Artalia.Model.UserDto;
 import com.example.Artalia.Model.UserResponseDto;
 import com.example.Artalia.Service.UserService;
@@ -56,5 +60,10 @@ public class UserDatabaseController {
     @DeleteMapping("/user/id={id}/delete")
     public void deleteById(@PathVariable("id") int id){
         userService.deleteById(id);
+    }
+
+    @PatchMapping("/user/id={id}/update/media/image")
+    public Mono<UserResponseDto> updateImageByUserId(@PathVariable("id") int id, @RequestBody UserEventDto userevenDto) throws InterruptedException, ExecutionException{
+        return userService.updateImageInfo(userevenDto); 
     }
 }

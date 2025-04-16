@@ -9,6 +9,6 @@ import com.example.Artalia.Dto.SongEventDto;
 @FeignClient(name = "song-service")
 public interface SongServiceImp {
 
-    @GetMapping("/song/{id}/item")
+    @GetMapping("/song/id={id}/item")
     public SongEventDto getById(@PathVariable("id") int id);
 }

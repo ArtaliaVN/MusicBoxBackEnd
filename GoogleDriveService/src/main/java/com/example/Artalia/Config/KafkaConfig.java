@@ -5,7 +5,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.kafka.config.TopicBuilder;
-
 @Configuration
 public class KafkaConfig {
 
@@ -17,4 +16,6 @@ public class KafkaConfig {
         return TopicBuilder.name(topicName)
                 .build();
     }
+
+
 }

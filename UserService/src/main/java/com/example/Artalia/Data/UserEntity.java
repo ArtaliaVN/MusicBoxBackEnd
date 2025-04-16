@@ -32,13 +32,8 @@ public class UserEntity{
 
     @NotBlank
     private String lastname;
-
-    @NotBlank
-    private String password;
-
-    @Builder.Default
+    
     private String imageurl = "https://drive.google.com/file/d/14YmUPBwmEkuvUee00levMbocNz-XvkWs/view?usp=drivesdk";
 
-    @Builder.Default
     private String imageid = "14YmUPBwmEkuvUee00levMbocNz-XvkWs";
 }

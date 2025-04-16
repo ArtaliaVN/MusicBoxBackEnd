@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
 import com.example.Artalia.Dto.UserEventDto;
 
 @Service
-public class KafkaProducer {
+public class UserProducer {
 
     @Autowired
     private NewTopic newTopic;
