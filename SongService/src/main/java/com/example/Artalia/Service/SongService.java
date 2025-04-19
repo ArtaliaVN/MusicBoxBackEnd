@@ -1,7 +1,10 @@
 package com.example.Artalia.Service;
 
+import java.util.concurrent.ExecutionException;
+
 import org.springframework.stereotype.Service;
 import com.example.Artalia.Model.SongDto;
+import com.example.Artalia.Model.SongEventDto;
 import com.example.Artalia.Model.SongResponseDto;
 import com.example.Artalia.Repository.SongRepository;
 
@@ -61,6 +64,18 @@ public class SongService {
     
     public SongRepository getRepo() {
         return songRepository;
+    }
+
+    public Mono<SongResponseDto> updateMediaInfo(SongEventDto songEventDto) throws InterruptedException, ExecutionException{
+        return songRepository.findById(songEventDto.getId())
+            .doOnNext(entity -> {
+                entity.setImageid(songEventDto.getImageID());
+                entity.setImageurl(songEventDto.getImageURL());
+                entity.setAudioid(songEventDto.getAudioID());
+                entity.setAudiourl(songEventDto.getAudioURL());
+            })
+            .flatMap(songRepository::save)
+            .map(SongResponseDto::entityToDto);
     }
 
     // public Mono<SongResponseDto> updateImageById(int id, File image) {

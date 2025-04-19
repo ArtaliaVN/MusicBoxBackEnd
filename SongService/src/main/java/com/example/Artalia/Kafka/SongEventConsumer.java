@@ -5,22 +5,20 @@ import java.util.concurrent.ExecutionException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Service;
-
-import com.example.Artalia.Controller.UserDatabaseController;
-import com.example.Artalia.Model.UserEventDto;
-import com.example.Artalia.Service.UserService;
+import com.example.Artalia.Model.SongEventDto;
+import com.example.Artalia.Service.SongService;
 
 @Service
-public class UserEventConsumer {
+public class SongEventConsumer {
     @Autowired
-    private UserService service;
+    private SongService service;
     
     @KafkaListener(
         topics = "${spring.kafka.topic.name}",
         groupId = "${spring.kafka.consumer.group-id}"
     )
-    public void consumer(UserEventDto userEventDto) throws InterruptedException, ExecutionException{
+    public void consumer(SongEventDto songEventDto) throws InterruptedException, ExecutionException{
         System.out.println("Check");
-        service.updateImageInfo(userEventDto).subscribe();
+        service.updateMediaInfo(songEventDto).subscribe();
     }
 }

@@ -80,10 +80,10 @@ public class AuthenticateService {
         if(!signUpRequest.getPassword().equals(signUpRequest.getConfirmPassword()))
             return ResponseEntity.badRequest().body(new MessageResponse("Please enter matching passwords"));
 
-        UserAuthEntity userEntity = new UserAuthEntity();
-        userEntity.setEmail(signUpRequest.getEmail());
-        userEntity.setUsername(signUpRequest.getUsername()); 
-        userEntity.setPassword(encoder.encode(signUpRequest.getPassword()));
+        UserAuthEntity userAuthEntity = new UserAuthEntity();
+        userAuthEntity.setEmail(signUpRequest.getEmail());
+        userAuthEntity.setUsername(signUpRequest.getUsername()); 
+        userAuthEntity.setPassword(encoder.encode(signUpRequest.getPassword()));
            
         Set<String> strRoles = signUpRequest.getRoles();
         Set<String> roles = new HashSet<>();

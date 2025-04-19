@@ -8,14 +8,22 @@ import org.springframework.kafka.config.TopicBuilder;
 @Configuration
 public class KafkaConfig {
 
-    @Value("${spring.kafka.topic-name}")
-    private String topicName;
+    @Value("${spring.kafka.producer.producer1.topic}")
+    private String topicName1;
+
+    @Value("${spring.kafka.producer.producer2.topic}")
+    private String topicName2;
 
     @Bean
-    public NewTopic topic(){
-        return TopicBuilder.name(topicName)
+    public NewTopic topic1(){
+        return TopicBuilder.name(topicName1)
                 .build();
     }
 
+    @Bean
+    public NewTopic topic2(){
+        return TopicBuilder.name(topicName2)
+                .build();
+    }
 
 }

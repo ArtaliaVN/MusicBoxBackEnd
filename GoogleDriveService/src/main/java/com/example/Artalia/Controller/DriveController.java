@@ -11,10 +11,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.bind.annotation.RequestBody;
 import com.example.Artalia.Dto.SongEventDto;
 import com.example.Artalia.Dto.UserEventDto;
-import com.example.Artalia.Event.UserProducer;
+import com.example.Artalia.Event.Producer;
 import com.example.Artalia.Interface.SongServiceImp;
 import com.example.Artalia.Interface.UserServiceImp;
 import com.example.Artalia.Service.DriveService;
@@ -33,7 +32,7 @@ public class DriveController {
     private SongServiceImp songServiceImp;
 
     @Autowired
-    private UserProducer userProducer;
+    private Producer producer;
 
     @PostMapping("media/user/{id}/image/update")
     public Mono<ResponseEntity<?>> userImagePatch(@RequestPart("image") MultipartFile imageFile, @PathVariable("id") int userid) throws IOException, GeneralSecurityException{
@@ -41,7 +40,7 @@ public class DriveController {
         String imageID = driveService.uploadImageToFolder("user","image" ,imageFile, userEventDto.getUserName());
         userEventDto.setImageID(imageID);
         userEventDto.setImageURL(driveService.getWebViewLink(imageID));
-        userProducer.sendMessage(userEventDto);
+        producer.sendUserEventMessage(userEventDto);
         return Mono.just(ResponseEntity.ok(userEventDto));
     }
 
@@ -57,7 +56,7 @@ public class DriveController {
         String imageID = driveService.uploadImageToFolder("user","image" ,imageFile, songEventDto.getUserName());
         songEventDto.setImageID(imageID);
         songEventDto.setImageURL(driveService.getWebViewLink(imageID));
-        //kafkaProducer.sendMessage(songEventDto);
+        producer.sendSongEventMessage(songEventDto);
         return Mono.just(ResponseEntity.ok(songEventDto));
     }
 
@@ -73,7 +72,7 @@ public class DriveController {
         String audioID = driveService.uploadAudioToFolder("user","audio" ,audioFile, songEventDto.getUserName());
         songEventDto.setAudioID(audioID);
         songEventDto.setAudioURL(driveService.getWebViewLink(audioID));
-        //kafkaProducer.sendMessage(songEventDto);
+        producer.sendSongEventMessage(songEventDto);
         return Mono.just(ResponseEntity.ok(songEventDto));
     }
 
