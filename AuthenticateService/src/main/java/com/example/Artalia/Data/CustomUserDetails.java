@@ -42,11 +42,11 @@ public class CustomUserDetails implements UserDetails {
 
     public static CustomUserDetails build(UserAuthEntity userAuthEntity){
         List<GrantedAuthority> authorities = userAuthEntity.getRoles().stream()
-            .map(role -> new SimpleGrantedAuthority(role))
+            .map(role -> new SimpleGrantedAuthority(role.getRoleName().toString()))
             .collect(Collectors.toList());
         
         return new CustomUserDetails(
-            userAuthEntity.getId(),
+            userAuthEntity.getUserId(),
             userAuthEntity.getUsername(),
             userAuthEntity.getEmail(),
             userAuthEntity.getPassword(),

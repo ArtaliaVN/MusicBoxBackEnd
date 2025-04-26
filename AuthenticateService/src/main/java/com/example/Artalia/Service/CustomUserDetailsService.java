@@ -1,5 +1,6 @@
 package com.example.Artalia.Service;
 
+import com.example.Artalia.Model.MessageResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;

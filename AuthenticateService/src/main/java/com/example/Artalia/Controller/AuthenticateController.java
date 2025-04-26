@@ -1,6 +1,7 @@
 package com.example.Artalia.Controller;
 
 import java.io.IOException;
+import java.util.concurrent.ExecutionException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -17,12 +18,12 @@ public class AuthenticateController {
     @Autowired
     private AuthenticateService authenticateService;
 
-    @PostMapping("/auth/user")
-    public ResponseEntity<?> register(@RequestBody SignUpRequest signUpRequest) throws IOException{
+    @PostMapping("/auth/signup/user")
+    public ResponseEntity<?> register(@RequestBody SignUpRequest signUpRequest) throws IOException, ExecutionException, InterruptedException {
         return authenticateService.register(signUpRequest);
     }
 
-    @PostMapping("/register/user")
+    @PostMapping("/auth/signin/user")
     public ResponseEntity<?> authenticateUser(@RequestBody LoginRequest loginRequest){
         return authenticateService.authenticateUser(loginRequest);
     }

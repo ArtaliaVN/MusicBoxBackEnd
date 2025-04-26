@@ -1,6 +1,10 @@
 package com.example.Artalia.Config;
 
+import com.example.Artalia.Data.RoleEntity;
+import com.example.Artalia.Model.ApplicationRole;
+import com.example.Artalia.Repository.RoleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -36,7 +40,7 @@ public class SecurityConfig {
         .csrf(csrf -> csrf.disable())
         .authorizeHttpRequests((request) -> 
             request
-                .requestMatchers("/user/accounts", "/user/account", "/user/signin", "/user/signup", "/song/items", "/song/item")
+                .requestMatchers("/user/accounts", "/user/account", "/auth/user", "/register/user", "/song/items", "/song/item")
                     .permitAll()
                 .requestMatchers("/*/delete", "/song", "/user", "/songlist")
                     .hasRole("USER")
@@ -74,5 +78,22 @@ public class SecurityConfig {
     @Bean
     public PasswordEncoder passwordEncoder(){
         return new BCryptPasswordEncoder();
+    }
+
+    @Bean
+    public CommandLineRunner initData(RoleRepository roleRepository) {
+        return args -> {
+            RoleEntity adminRole = roleRepository.findByRoleName(ApplicationRole.ROLE_ADMIN)
+                    .orElseGet(() -> {
+                        RoleEntity createAdminRole = new RoleEntity(ApplicationRole.ROLE_ADMIN);
+                        return roleRepository.save(createAdminRole);
+                    });
+
+            RoleEntity userRole = roleRepository.findByRoleName(ApplicationRole.ROLE_USER)
+                    .orElseGet(() -> {
+                        RoleEntity createUserRole = new RoleEntity(ApplicationRole.ROLE_USER);
+                        return roleRepository.save(createUserRole);
+                    });
+        };
     }
 }
