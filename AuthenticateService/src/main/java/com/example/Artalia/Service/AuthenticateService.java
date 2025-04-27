@@ -117,5 +117,7 @@ public class AuthenticateService {
         return ResponseEntity.accepted().body("Success");//.body(authProducer.sendMessage(userEntity));
     }
 
-
+    public boolean validateToken(String token) {
+        return jwtUtils.validateJwtToken(token);
+    }
 }

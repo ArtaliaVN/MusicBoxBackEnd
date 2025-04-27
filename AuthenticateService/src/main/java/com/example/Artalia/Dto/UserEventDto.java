@@ -13,5 +13,4 @@ public class UserEventDto {
     public String userName;
     public String firstName;
     public String lastName;
-    public String password;
 }

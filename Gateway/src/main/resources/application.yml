@@ -5,25 +5,25 @@ spring:
       - id: song-service
         uri: http://localhost:9211
         predicates:
-        - Path=/song/**
+          - Path=/song/**
         filters:
-        - AuthenticationFilter
+          - AuthenticationFilter
 
       - id: auth-service
         uri: http://localhost:9213
         predicates:
-        - Path=/auth/**
+          - Path=/auth/**
 
       - id: user-service
         uri: http://localhost:9212
         predicates:
-        - Path=/user/**
+          - Path=/user/**
         filters:
-        - AuthenticationFilter
+          - AuthenticationFilter
       
       - id: google-drive-service
         uri: http://localhost:9214
         predicates:
-        - Path=/media/**
+          - Path=/media/**
         filters:
-        - AuthenticationFilter
+          - AuthenticationFilter

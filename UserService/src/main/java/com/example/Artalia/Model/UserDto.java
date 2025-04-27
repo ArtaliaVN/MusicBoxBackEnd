@@ -15,7 +15,6 @@ public class UserDto {
     public String userName;
     public String firstName;
     public String lastName;
-    public String password;
 
     public static UserEntity dtoToEntity(UserDto userDto){
         UserEntity userEntity = new UserEntity();
