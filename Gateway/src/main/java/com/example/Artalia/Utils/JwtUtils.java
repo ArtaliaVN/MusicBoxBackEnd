@@ -16,7 +16,7 @@ import java.security.Key;
 @Service
 public class JwtUtils {
     private static final Logger logger = LoggerFactory.getLogger(JwtUtils.class);
-    public static final String SECRET = "musicBoxSecretKeyAuth2414123151securityTokenTestingAuthenticationOfSpringJWT";
+    private static final String SECRET = "musicBoxSecretKeyAuth2414123151securityTokenTestingAuthenticationOfSpringJWT";
 
     public boolean validateJwtToken(String authToken) {
         try {

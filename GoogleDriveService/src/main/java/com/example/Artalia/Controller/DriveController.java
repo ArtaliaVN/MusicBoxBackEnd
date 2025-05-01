@@ -5,11 +5,7 @@ import java.security.GeneralSecurityException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestPart;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import com.example.Artalia.Dto.SongEventDto;
 import com.example.Artalia.Dto.UserEventDto;
@@ -53,7 +49,7 @@ public class DriveController {
     @PostMapping("media/song/{id}/image/update")
     public Mono<ResponseEntity<?>> songImagePatch(@RequestPart("image") MultipartFile imageFile, @PathVariable("id") int userid) throws IOException, GeneralSecurityException{
         SongEventDto songEventDto = songServiceImp.getById(userid);
-        String imageID = driveService.uploadImageToFolder("user","image" ,imageFile, songEventDto.getUserName());
+        String imageID = driveService.uploadImageToFolder("user","image" ,imageFile, songEventDto.getSongName());
         songEventDto.setImageID(imageID);
         songEventDto.setImageURL(driveService.getWebViewLink(imageID));
         producer.sendSongEventMessage(songEventDto);
@@ -69,7 +65,7 @@ public class DriveController {
     @PostMapping("media/song/{id}/audio/update")
     public Mono<ResponseEntity<?>> songAudioPatch(@RequestPart("audio") MultipartFile audioFile, @PathVariable("id") int userid) throws IOException, GeneralSecurityException{
         SongEventDto songEventDto = songServiceImp.getById(userid);
-        String audioID = driveService.uploadAudioToFolder("user","audio" ,audioFile, songEventDto.getUserName());
+        String audioID = driveService.uploadAudioToFolder("user","audio" ,audioFile, songEventDto.getSongName());
         songEventDto.setAudioID(audioID);
         songEventDto.setAudioURL(driveService.getWebViewLink(audioID));
         producer.sendSongEventMessage(songEventDto);

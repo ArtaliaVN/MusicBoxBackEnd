@@ -13,6 +13,8 @@ import org.springframework.security.config.annotation.authentication.configurati
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
+import org.springframework.security.config.annotation.web.configurers.HeadersConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -37,18 +39,18 @@ public class SecurityConfig {
     @Bean
     SecurityFilterChain defaultSecurityFilterChain (HttpSecurity http) throws Exception {
         http
-        .csrf(csrf -> csrf.disable())
+        .csrf(AbstractHttpConfigurer::disable)
         .authorizeHttpRequests((request) -> 
             request
-                .requestMatchers("/user/accounts", "/user/account", "/auth/signin/user", "/auth/signup/user", "/song/items", "/song/item")
+                .requestMatchers("/user/accounts","/user/**/accounts", "/user/**/account", "/auth/signin/user", "/auth/signup/user", "/song/items", "/song/**/item", "/song/**/items", "/media/user/**/image/fetch", "/media/song/**/image/fetch", "/media/song/**/audio/fetch")
                     .permitAll()
-                .requestMatchers("/*/delete", "/song", "/user", "/songlist")
+                .requestMatchers("/song/**/delete", "/user/**/delete", "/song", "/user", "/media/user/**/image/update","/media/song/**/image/update", "/media/song/**/audio/update")
                     .hasRole("USER")
                     .anyRequest()
                     .authenticated()
         );
         http.headers(headers -> headers
-            .frameOptions(frameOptions -> frameOptions.sameOrigin())
+            .frameOptions(HeadersConfigurer.FrameOptionsConfig::sameOrigin)
         );
         http.exceptionHandling(exception -> exception.authenticationEntryPoint(unAuthorizedHandler));
         http.sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));

@@ -26,7 +26,7 @@ import com.google.auth.oauth2.GoogleCredentials;
 @Service
 public class DriveService {
     private static final String folderId = "16HZYufjxA-XXG1NMr0Je5uyv8UYCJhxV";
-    private static final String SERVICE_ACOUNT_KEY_PATH = "src\\main\\java\\com\\example\\Artalia\\Credentials\\music-box-project-449604-02ef9b6ce740.json";
+    private static final String SERVICE_ACCOUNT_KEY_PATH = "src/main/java/com/example/Artalia/Credentials/music-box-project-449604-02ef9b6ce740.json";
     private static final JsonFactory JSON_FACTORY = GsonFactory.getDefaultInstance();
 
     public String uploadImageToFolder(String prefix, String fileType, MultipartFile uploadFile, String name) throws IOException, GeneralSecurityException{
@@ -124,7 +124,7 @@ public class DriveService {
     }
 
     private Drive createDriveService() throws GeneralSecurityException, IOException {
-        GoogleCredentials credentials = GoogleCredentials.fromStream(new FileInputStream(SERVICE_ACOUNT_KEY_PATH))
+        GoogleCredentials credentials = GoogleCredentials.fromStream(new FileInputStream(SERVICE_ACCOUNT_KEY_PATH))
             .createScoped(Collections.singleton(DriveScopes.DRIVE));
         HttpRequestInitializer requestInitializer = new HttpCredentialsAdapter(credentials);
         return new Drive.Builder(

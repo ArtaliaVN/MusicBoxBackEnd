@@ -1,6 +1,5 @@
 package com.example.Artalia.Service;
 
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -28,8 +27,6 @@ import com.example.Artalia.Data.RoleEntity;
 import com.example.Artalia.Data.UserAuthEntity;
 import com.example.Artalia.Utils.JwtUtils;
 
-import javax.management.relation.Role;
-
 @Service
 public class AuthenticateService {
     @Autowired
@@ -49,9 +46,6 @@ public class AuthenticateService {
 
     @Autowired
     private UserServiceImp userServiceImp;
-
-    // @Autowired
-    // private AuthProducer authProducer;
 
     public ResponseEntity<?> authenticateUser(LoginRequest loginRequest){
         Authentication authentication;
@@ -73,7 +67,7 @@ public class AuthenticateService {
         return ResponseEntity.ok(response);
     }
 
-    public ResponseEntity<?> register(SignUpRequest signUpRequest) throws IOException{
+    public ResponseEntity<?> register(SignUpRequest signUpRequest) {
         if(userAuthService.existsUserAuthByEmailOrUserName(signUpRequest.getEmail(), signUpRequest.getUsername())){
             return ResponseEntity.badRequest().body(new MessageResponse("Email or Username already exists"));
         }
